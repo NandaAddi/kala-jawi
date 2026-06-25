@@ -64,7 +64,7 @@ function GameInfoPage() {
 
             <h1 className="font-display text-3xl sm:text-4xl font-bold text-white">Info Game</h1>
 
-            <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/10 px-4 py-1.5">
+            <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5">
               <span className="size-2 rounded-full bg-brand-gold animate-pulse" />
               <span className="text-xs font-medium uppercase tracking-wider text-brand-gold">
                 Coming Soon

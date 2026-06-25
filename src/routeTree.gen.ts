@@ -9,12 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TentangRouteImport } from './routes/tentang'
+import { Route as SyaratKetentuanRouteImport } from './routes/syarat-ketentuan'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as KontakRouteImport } from './routes/kontak'
+import { Route as GameInfoRouteImport } from './routes/game-info'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TentangRoute = TentangRouteImport.update({
+  id: '/tentang',
+  path: '/tentang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SyaratKetentuanRoute = SyaratKetentuanRouteImport.update({
+  id: '/syarat-ketentuan',
+  path: '/syarat-ketentuan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -28,6 +41,11 @@ const LoginRoute = LoginRouteImport.update({
 const KontakRoute = KontakRouteImport.update({
   id: '/kontak',
   path: '/kontak',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameInfoRoute = GameInfoRouteImport.update({
+  id: '/game-info',
+  path: '/game-info',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
@@ -44,43 +62,94 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/game-info': typeof GameInfoRoute
   '/kontak': typeof KontakRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/syarat-ketentuan': typeof SyaratKetentuanRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/game-info': typeof GameInfoRoute
   '/kontak': typeof KontakRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/syarat-ketentuan': typeof SyaratKetentuanRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/game-info': typeof GameInfoRoute
   '/kontak': typeof KontakRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/syarat-ketentuan': typeof SyaratKetentuanRoute
+  '/tentang': typeof TentangRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/forgot-password' | '/kontak' | '/login' | '/register'
+  fullPaths:
+    | '/'
+    | '/forgot-password'
+    | '/game-info'
+    | '/kontak'
+    | '/login'
+    | '/register'
+    | '/syarat-ketentuan'
+    | '/tentang'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forgot-password' | '/kontak' | '/login' | '/register'
-  id: '__root__' | '/' | '/forgot-password' | '/kontak' | '/login' | '/register'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/game-info'
+    | '/kontak'
+    | '/login'
+    | '/register'
+    | '/syarat-ketentuan'
+    | '/tentang'
+  id:
+    | '__root__'
+    | '/'
+    | '/forgot-password'
+    | '/game-info'
+    | '/kontak'
+    | '/login'
+    | '/register'
+    | '/syarat-ketentuan'
+    | '/tentang'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  GameInfoRoute: typeof GameInfoRoute
   KontakRoute: typeof KontakRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  SyaratKetentuanRoute: typeof SyaratKetentuanRoute
+  TentangRoute: typeof TentangRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tentang': {
+      id: '/tentang'
+      path: '/tentang'
+      fullPath: '/tentang'
+      preLoaderRoute: typeof TentangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/syarat-ketentuan': {
+      id: '/syarat-ketentuan'
+      path: '/syarat-ketentuan'
+      fullPath: '/syarat-ketentuan'
+      preLoaderRoute: typeof SyaratKetentuanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -100,6 +169,13 @@ declare module '@tanstack/react-router' {
       path: '/kontak'
       fullPath: '/kontak'
       preLoaderRoute: typeof KontakRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/game-info': {
+      id: '/game-info'
+      path: '/game-info'
+      fullPath: '/game-info'
+      preLoaderRoute: typeof GameInfoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -122,9 +198,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  GameInfoRoute: GameInfoRoute,
   KontakRoute: KontakRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  SyaratKetentuanRoute: SyaratKetentuanRoute,
+  TentangRoute: TentangRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

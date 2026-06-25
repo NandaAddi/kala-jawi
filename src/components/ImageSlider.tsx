@@ -7,10 +7,15 @@ interface ImageSliderProps {
 }
 
 export function ImageSlider({ images, interval = 4000 }: ImageSliderProps) {
+  const [mounted, setMounted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [hasSlid, setHasSlid] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const next = useCallback(() => {
     if (isAnimating) return;
@@ -21,9 +26,30 @@ export function ImageSlider({ images, interval = 4000 }: ImageSliderProps) {
   }, [current, isAnimating, images.length]);
 
   useEffect(() => {
-    const timer = setInterval(next, interval);
-    return () => clearInterval(timer);
-  }, [next, interval]);
+    if (!mounted) return;
+
+    let timer: ReturnType<typeof setInterval>;
+
+    const startInterval = () => {
+      timer = setInterval(next, interval);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        clearInterval(timer);
+      } else {
+        startInterval();
+      }
+    };
+
+    startInterval();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [next, interval, mounted]);
 
   useEffect(() => {
     if (isAnimating) {
@@ -32,13 +58,24 @@ export function ImageSlider({ images, interval = 4000 }: ImageSliderProps) {
     }
   }, [isAnimating]);
 
+  if (!mounted) {
+    return (
+      <div className="relative w-full h-full overflow-hidden">
+        <img
+          src={images[0].src}
+          alt={images[0].alt}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-full overflow-hidden">
       <img
         src={images[prev].src}
         alt={images[prev].alt}
         className="absolute inset-0 w-full h-full object-cover"
-        suppressHydrationWarning
       />
 
       <AnimatePresence>
@@ -50,7 +87,6 @@ export function ImageSlider({ images, interval = 4000 }: ImageSliderProps) {
           animate={{ clipPath: "inset(0 0% 0 0)" }}
           transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 w-full h-full object-cover"
-          suppressHydrationWarning
         />
       </AnimatePresence>
 

@@ -104,13 +104,7 @@ const fadeUp = {
 
 function KontakPage() {
   return (
-    <div
-      className="min-h-screen w-full"
-      style={{
-        background: "linear-gradient(135deg, #d9b482 0%, #b8895a 100%)",
-        fontFamily: "'Inter', sans-serif",
-      }}
-    >
+    <div className="min-h-screen w-full font-body bg-gradient-to-br from-brand-tan to-brand-medium">
       <div
         className="pointer-events-none fixed inset-0 z-0 animate-batik-drift opacity-30"
         style={{
@@ -140,7 +134,7 @@ function KontakPage() {
               className="font-display text-3xl text-white sm:text-4xl md:text-6xl drop-shadow-lg"
               style={{ lineHeight: 1.1 }}
             >
-              Hubungi <span className="text-brand-gold">Kami</span>
+              Hubungi Kami
             </h1>
           </motion.section>
 
@@ -156,10 +150,16 @@ function KontakPage() {
             <ContactCard
               icon={<Mail className="size-7" />}
               title="Email"
-              content={[
-                "Kirim pertanyaan atau saran Anda melalui email:",
-                "tim@kala-jawi.nandaaddiwijaya.my.id",
-                "support@kala-jawi.nandaaddiwijaya.my.id",
+              content={["Kirim pertanyaan atau saran Anda melalui email:"]}
+              links={[
+                {
+                  label: "tim@kala-jawi.nandaaddiwijaya.my.id",
+                  href: "mailto:tim@kala-jawi.nandaaddiwijaya.my.id",
+                },
+                {
+                  label: "support@kala-jawi.nandaaddiwijaya.my.id",
+                  href: "mailto:support@kala-jawi.nandaaddiwijaya.my.id",
+                },
               ]}
               delay={0.1}
             />

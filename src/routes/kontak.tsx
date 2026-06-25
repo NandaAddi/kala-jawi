@@ -20,7 +20,7 @@ export const Route = createFileRoute("/kontak")({
           "Hubungi tim Kalajawi untuk masukan, saran, kolaborasi, atau pertanyaan seputar platform budaya Jawa.",
       },
       { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/kontak" },
-      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
+      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
     ],
   }),
   component: KontakPage,

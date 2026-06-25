@@ -37,7 +37,7 @@ export const Route = createFileRoute("/login")({
           "Masuk ke akun Kalajawi Anda untuk mengakses fitur pembelajaran budaya Jawa yang lengkap.",
       },
       { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/login" },
-      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
+      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
     ],
   }),
   component: LoginPage,

@@ -35,7 +35,7 @@ export const Route = createFileRoute("/forgot-password")({
         content: "Lupa kata sandi Kalajawi? Reset password akun Anda dengan mudah.",
       },
       { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/forgot-password" },
-      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
+      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
     ],
   }),
   component: ForgotPasswordPage,

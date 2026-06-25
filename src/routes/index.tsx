@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
         content: "Platform pembelajaran digital interaktif untuk menjelajahi kekayaan budaya Jawa.",
       },
       { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/" },
-      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
+      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
     ],
   }),
   component: Index,

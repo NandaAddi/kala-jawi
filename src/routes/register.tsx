@@ -36,7 +36,7 @@ export const Route = createFileRoute("/register")({
         content: "Buat akun Kalajawi gratis dan mulai petualangan belajar budaya Jawa.",
       },
       { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/register" },
-      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
+      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
     ],
   }),
   component: RegisterPage,

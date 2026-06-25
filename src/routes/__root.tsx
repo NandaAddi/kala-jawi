@@ -103,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/" },
-      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
+      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
       { property: "og:site_name", content: "Kalajawi" },
       { property: "og:locale", content: "id_ID" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -112,7 +112,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "twitter:description",
         content: "Platform pembelajaran digital interaktif untuk menjelajahi kekayaan budaya Jawa.",
       },
-      { name: "twitter:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
+      { name: "twitter:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -143,7 +143,7 @@ function RootShell({ children }: { children: ReactNode }) {
       name: "Kalajawi",
       logo: {
         "@type": "ImageObject",
-        url: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp",
+        url: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg",
       },
     },
     inLanguage: "id",

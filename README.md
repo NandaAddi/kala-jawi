@@ -111,4 +111,4 @@ MIT License
 
 ## Contact
 
-For questions or feedback, please visit [kalajawi.id/kontak](https://kalajawi.id/kontak)
+For questions or feedback, please visit [kala-jawi.nandaaddiwijaya.my.id/kontak](https://kala-jawi.nandaaddiwijaya.my.id/kontak)

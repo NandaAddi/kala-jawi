@@ -4,4 +4,4 @@ Disallow: /login
 Disallow: /register
 Disallow: /forgot-password
 
-Sitemap: https://kalajawi.id/sitemap.xml
+Sitemap: https://kala-jawi.nandaaddiwijaya.my.id/sitemap.xml

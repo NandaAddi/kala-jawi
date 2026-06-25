@@ -19,8 +19,8 @@ export const Route = createFileRoute("/kontak")({
         content:
           "Hubungi tim Kalajawi untuk masukan, saran, kolaborasi, atau pertanyaan seputar platform budaya Jawa.",
       },
-      { property: "og:url", content: "https://kalajawi.id/kontak" },
-      { property: "og:image", content: "https://kalajawi.id/og-image.webp" },
+      { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/kontak" },
+      { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.webp" },
     ],
   }),
   component: KontakPage,
@@ -158,8 +158,8 @@ function KontakPage() {
               title="Email"
               content={[
                 "Kirim pertanyaan atau saran Anda melalui email:",
-                "tim@kalajawi.id",
-                "support@kalajawi.id",
+                "tim@kala-jawi.nandaaddiwijaya.my.id",
+                "support@kala-jawi.nandaaddiwijaya.my.id",
               ]}
               delay={0.1}
             />

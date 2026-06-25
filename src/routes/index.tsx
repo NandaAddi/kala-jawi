@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import temple from "@/assets/temple.webp";
@@ -31,41 +31,47 @@ function SlideRevealButton({
   gradientFrom,
   gradientTo,
   variant = "primary",
+  href,
 }: {
   label: string;
   gradientFrom: string;
   gradientTo: string;
   variant?: "primary" | "secondary";
+  href: string;
 }) {
   const [hovered, setHovered] = useState(false);
 
   const isPrimary = variant === "primary";
 
   return (
-    <motion.button
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      whileTap={{ scale: 0.96 }}
-      transition={{ type: "spring", stiffness: 200, damping: 15 }}
-      className={`group relative cursor-pointer overflow-hidden rounded-lg border-2 border-brand-gold px-8 py-3 text-base font-bold uppercase tracking-[0.12em] shadow-[0_4px_20px_rgba(0,0,0,0.4)] sm:px-14 sm:py-4 sm:text-xl ${
-        isPrimary ? "bg-brand-gold text-brand-dark" : "bg-brand-dark/70 backdrop-blur-sm text-white"
-      }`}
-    >
-      {!isPrimary && (
-        <motion.span
-          className="absolute inset-0 origin-left"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: hovered ? 1 : 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            background: `linear-gradient(to right, ${gradientFrom}, ${gradientTo})`,
-          }}
-        />
-      )}
-      <span className="relative z-10">{label}</span>
-      <span className="absolute -top-[3px] -left-[3px] size-5 border-t-2 border-l-2 border-brand-gold transition-all duration-300 group-hover:size-7 group-hover:border-brand-light-gold" />
-      <span className="absolute -bottom-[3px] -right-[3px] size-5 border-b-2 border-r-2 border-brand-gold transition-all duration-300 group-hover:size-7 group-hover:border-brand-light-gold" />
-    </motion.button>
+    <Link to={href}>
+      <motion.div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        whileTap={{ scale: 0.96 }}
+        transition={{ type: "spring", stiffness: 200, damping: 15 }}
+        className={`group relative cursor-pointer overflow-hidden rounded-lg border-2 border-brand-gold px-8 py-3 text-base font-bold uppercase tracking-[0.12em] shadow-[0_4px_20px_rgba(0,0,0,0.4)] sm:px-14 sm:py-4 sm:text-xl ${
+          isPrimary
+            ? "bg-brand-gold text-brand-dark"
+            : "bg-brand-dark/70 backdrop-blur-sm text-white"
+        }`}
+      >
+        {!isPrimary && (
+          <motion.span
+            className="absolute inset-0 origin-left"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: hovered ? 1 : 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              background: `linear-gradient(to right, ${gradientFrom}, ${gradientTo})`,
+            }}
+          />
+        )}
+        <span className="relative z-10">{label}</span>
+        <span className="absolute -top-[3px] -left-[3px] size-5 border-t-2 border-l-2 border-brand-gold transition-all duration-300 group-hover:size-7 group-hover:border-brand-light-gold" />
+        <span className="absolute -bottom-[3px] -right-[3px] size-5 border-b-2 border-r-2 border-brand-gold transition-all duration-300 group-hover:size-7 group-hover:border-brand-light-gold" />
+      </motion.div>
+    </Link>
   );
 }
 
@@ -148,12 +154,14 @@ function Index() {
               variant="primary"
               gradientFrom="#c9953c"
               gradientTo="#e8c878"
+              href="/login"
             />
             <SlideRevealButton
               label="Daftar"
               variant="secondary"
               gradientFrom="#c9953c"
               gradientTo="#e8c878"
+              href="/register"
             />
           </motion.div>
         </motion.div>

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, Instagram, Twitter, Facebook } from "lucide-react";
+import { Mail, Instagram, Twitter, Facebook } from "lucide-react";
 import batikBg from "@/assets/batik.webp";
 import { Navbar } from "@/components/Navbar";
 
@@ -165,28 +165,6 @@ function KontakPage() {
             />
 
             <ContactCard
-              icon={<Phone className="size-7" />}
-              title="Telepon"
-              content={[
-                "Hubungi kami di jam kerja (09.00 - 17.00 WIB):",
-                "+62 812-3456-7890",
-                "+62 821-9876-5432",
-              ]}
-              delay={0.2}
-            />
-
-            <ContactCard
-              icon={<MapPin className="size-7" />}
-              title="Alamat"
-              content={[
-                "Kantor Pengembangan Kala-Jawi:",
-                "Jl. Budaya Nusantara No. 123",
-                "Yogyakarta 55281, Indonesia",
-              ]}
-              delay={0.3}
-            />
-
-            <ContactCard
               icon={<Instagram className="size-7" />}
               title="Media Sosial"
               content={["Ikuti kami di media sosial untuk update terbaru:"]}
@@ -207,7 +185,7 @@ function KontakPage() {
                   icon: <Facebook className="size-4" />,
                 },
               ]}
-              delay={0.4}
+              delay={0.2}
             />
           </section>
         </motion.div>

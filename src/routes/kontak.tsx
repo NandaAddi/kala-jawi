@@ -86,7 +86,7 @@ const fadeUp = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -110,7 +110,7 @@ function KontakPage() {
 
       <Navbar />
 
-      <main className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 py-6 pt-20 sm:px-8 sm:py-8 sm:pt-24 md:px-12 lg:px-16">
+      <main className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 sm:px-8 lg:px-16 pt-28 sm:pt-32 pb-20 sm:pb-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"

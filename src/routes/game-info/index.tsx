@@ -54,7 +54,7 @@ const features = [
 
 function GameInfoPage() {
   return (
-    <div className="px-4 pt-32 pb-20">
+    <div className="px-4 sm:px-8 lg:px-16 pt-28 sm:pt-32 pb-20 sm:pb-24">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -62,10 +62,10 @@ function GameInfoPage() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mb-12 text-center"
         >
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-dark mb-4">
+          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4">
             Info Game
           </h1>
-          <p className="text-brand-dark/80 text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto">
             Kelola pembelajaran budaya Jawa dengan fitur lengkap untuk memantau, menyusun, dan
             menganalisis perjalanan siswa
           </p>

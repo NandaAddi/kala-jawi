@@ -1,46 +1,109 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { getMockUser } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { User, Lock } from "lucide-react";
+import { Check, X, Eye, EyeOff, Settings, Grid3X3, Shield, User } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard/profil")({
   component: ProfilPage,
 });
 
+interface EditState {
+  field: string | null;
+  value: string;
+}
+
+interface ProfileData {
+  nama: string;
+  email: string;
+  sekolah: string;
+  foto_profil: string;
+}
+
+interface PasswordData {
+  password_lama: string;
+  password_baru: string;
+  konfirmasi_password: string;
+}
+
+interface PasswordStrength {
+  minLength: boolean;
+  hasNumber: boolean;
+  hasUppercase: boolean;
+}
+
+type TabType = "info" | "keamanan";
+
 function ProfilPage() {
   const user = getMockUser();
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [isChangingPassword, setIsChangingPassword] = useState(false);
-
-  const [profileData, setProfileData] = useState({
+  const [profileData, setProfileData] = useState<ProfileData>({
     nama: user?.nama || "",
     email: user?.email || "",
     sekolah: "SMPN 1 Surabaya",
     foto_profil: "",
   });
 
-  const [passwordData, setPasswordData] = useState({
+  const [editState, setEditState] = useState<EditState>({
+    field: null,
+    value: "",
+  });
+
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [showPasswords, setShowPasswords] = useState({
+    old: false,
+    new: false,
+    confirm: false,
+  });
+
+  const [passwordData, setPasswordData] = useState<PasswordData>({
     password_lama: "",
     password_baru: "",
     konfirmasi_password: "",
   });
 
-  const handleProfileSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("Profil berhasil diperbarui!");
-    setIsEditingProfile(false);
+  const [activeTab, setActiveTab] = useState<TabType>("info");
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  const startEdit = (field: keyof ProfileData) => {
+    setEditState({
+      field,
+      value: profileData[field],
+    });
+  };
+
+  const saveEdit = () => {
+    if (!editState.field) return;
+
+    if (editState.value.trim() === "") {
+      toast.error("Field tidak boleh kosong");
+      return;
+    }
+
+    setProfileData((prev) => ({
+      ...prev,
+      [editState.field]: editState.value,
+    }));
+
+    toast.success("Berhasil diperbarui!");
+    setEditState({ field: null, value: "" });
+  };
+
+  const cancelEdit = () => {
+    setEditState({ field: null, value: "" });
+  };
+
+  const handlePasswordChange = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (passwordData.password_baru !== passwordData.konfirmasi_password) {
@@ -62,254 +125,510 @@ function ProfilPage() {
     setIsChangingPassword(false);
   };
 
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+  const getPasswordStrength = (): PasswordStrength => {
+    const pwd = passwordData.password_baru;
+    return {
+      minLength: pwd.length >= 8,
+      hasNumber: /\d/.test(pwd),
+      hasUppercase: /[A-Z]/.test(pwd),
+    };
   };
 
+  const strength = getPasswordStrength();
+  const strengthCount = Object.values(strength).filter(Boolean).length;
+
   return (
-    <DashboardLayout
-      title="Profil Guru"
-      subtitle="Kelola informasi pribadi dan keamanan akun Anda."
-    >
-      <div className="max-w-3xl space-y-6">
+    <DashboardLayout title="" subtitle="">
+      <div className="max-w-3xl mx-auto">
+        {/* HEADER - Avatar & Stats (Instagram Style) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="flex items-start gap-8 md:gap-12 mb-8"
         >
-          <div className="rounded-lg border border-brand-gold/30 bg-brand-dark/90 p-8 shadow-lg shadow-brand-gold/10 backdrop-blur-sm">
-            <div className="flex items-center gap-6">
-              <Avatar className="w-24 h-24 border-2 border-brand-gold/40">
-                <AvatarImage src={profileData.foto_profil} />
-                <AvatarFallback className="bg-brand-gold text-brand-dark text-3xl font-bold font-display">
-                  {getInitials(profileData.nama)}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <h2 className="text-3xl font-bold text-brand-cream font-display mb-1">
-                  {profileData.nama}
-                </h2>
-                <p className="text-brand-cream/70 mb-3">{profileData.email}</p>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 rounded-full bg-brand-gold" />
-                  <span className="text-brand-cream/60">Guru • {profileData.sekolah}</span>
-                </div>
+          {/* Avatar */}
+          <div className="flex-shrink-0">
+            <Avatar className="w-20 h-20 md:w-36 md:h-36 border-2 border-brand-gold/40">
+              <AvatarImage src={profileData.foto_profil} />
+              <AvatarFallback className="bg-brand-gold text-brand-dark text-2xl md:text-4xl font-bold font-display">
+                {getInitials(profileData.nama)}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+
+          {/* Info */}
+          <div className="flex-1 min-w-0">
+            {/* Name & Actions */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+              <h1 className="text-xl md:text-2xl font-bold text-brand-dark truncate">
+                {profileData.nama}
+              </h1>
+              <div className="flex gap-2">
+                <button className="px-4 py-1.5 bg-brand-dark text-brand-cream text-sm font-semibold rounded-lg hover:bg-brand-dark/90 transition-colors">
+                  Edit Profil
+                </button>
+                <button className="p-1.5 border border-brand-gold/30 rounded-lg hover:bg-brand-gold/10 transition-colors">
+                  <Settings className="w-5 h-5 text-brand-dark" />
+                </button>
               </div>
+            </div>
+
+            {/* Stats Row (Instagram Style) */}
+            <div className="flex gap-6 md:gap-10 mb-4">
+              <div className="text-center">
+                <span className="font-bold text-brand-dark">2</span>
+                <span className="text-brand-dark/70 ml-1">Kelas</span>
+              </div>
+              <div className="text-center">
+                <span className="font-bold text-brand-dark">60</span>
+                <span className="text-brand-dark/70 ml-1">Siswa</span>
+              </div>
+              <div className="text-center">
+                <span className="font-bold text-brand-dark">156</span>
+                <span className="text-brand-dark/70 ml-1">Aktivitas</span>
+              </div>
+            </div>
+
+            {/* Bio */}
+            <div className="hidden md:block">
+              <p className="font-semibold text-brand-dark text-sm">{profileData.nama}</p>
+              <p className="text-sm text-brand-dark/70">{profileData.sekolah}</p>
+              <p className="text-sm text-brand-dark/70">{profileData.email}</p>
             </div>
           </div>
         </motion.div>
 
+        {/* Mobile Bio */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="md:hidden mb-6 px-1"
         >
-          <Card className="border-brand-gold/30">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div className="flex items-center gap-2">
-                <User className="w-5 h-5 text-brand-gold" />
-                <CardTitle>Informasi Pribadi</CardTitle>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsEditingProfile(!isEditingProfile)}
-                className="border-brand-gold/30"
-              >
-                {isEditingProfile ? "Batal" : "Edit"}
-              </Button>
-            </CardHeader>
-            <CardContent>
-              {isEditingProfile ? (
-                <form onSubmit={handleProfileSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="nama">Nama Lengkap</Label>
-                    <Input
-                      id="nama"
-                      value={profileData.nama}
-                      onChange={(e) =>
-                        setProfileData((prev) => ({ ...prev, nama: e.target.value }))
-                      }
-                      required
-                    />
+          <p className="font-semibold text-brand-dark text-sm">{profileData.nama}</p>
+          <p className="text-sm text-brand-dark/70">{profileData.sekolah}</p>
+          <p className="text-sm text-brand-dark/70">{profileData.email}</p>
+        </motion.div>
+
+        {/* Tab Bar (Instagram Style) */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="border-t border-brand-gold/30 mb-6"
+        >
+          <div className="flex justify-center gap-12">
+            <button
+              onClick={() => setActiveTab("info")}
+              className={`flex items-center gap-2 py-4 text-xs font-semibold uppercase tracking-wider border-t transition-colors ${
+                activeTab === "info"
+                  ? "border-brand-dark text-brand-dark"
+                  : "border-transparent text-brand-dark/40 hover:text-brand-dark/60"
+              }`}
+            >
+              <User className="w-4 h-4" />
+              Informasi
+            </button>
+            <button
+              onClick={() => setActiveTab("keamanan")}
+              className={`flex items-center gap-2 py-4 text-xs font-semibold uppercase tracking-wider border-t transition-colors ${
+                activeTab === "keamanan"
+                  ? "border-brand-dark text-brand-dark"
+                  : "border-transparent text-brand-dark/40 hover:text-brand-dark/60"
+              }`}
+            >
+              <Shield className="w-4 h-4" />
+              Keamanan
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Tab Content */}
+        <AnimatePresence mode="wait">
+          {activeTab === "info" && (
+            <motion.div
+              key="info"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="bg-white border border-brand-gold/30 rounded-xl p-6 shadow-sm shadow-black/5">
+                <h3 className="text-lg font-bold text-brand-dark mb-6">Informasi Pribadi</h3>
+
+                <div className="space-y-1">
+                  {/* Nama */}
+                  <div className="group cursor-pointer py-3" onClick={() => startEdit("nama")}>
+                    <label className="text-xs text-brand-dark/50 block mb-1">Nama Lengkap</label>
+                    {editState.field === "nama" ? (
+                      <div className="flex gap-2 items-center">
+                        <input
+                          autoFocus
+                          type="text"
+                          value={editState.value}
+                          onChange={(e) =>
+                            setEditState((prev) => ({
+                              ...prev,
+                              value: e.target.value,
+                            }))
+                          }
+                          className="flex-1 bg-transparent border-b border-brand-gold text-brand-dark placeholder:text-brand-dark/30 focus:outline-none py-1"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") saveEdit();
+                            if (e.key === "Escape") cancelEdit();
+                          }}
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            saveEdit();
+                          }}
+                          className="p-1.5 text-brand-gold hover:bg-brand-gold/10 rounded transition-colors"
+                        >
+                          <Check size={16} />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            cancelEdit();
+                          }}
+                          className="p-1.5 text-brand-dark/40 hover:bg-brand-dark/5 rounded transition-colors"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <p className="text-brand-dark group-hover:text-brand-gold transition-colors">
+                        {profileData.nama}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={profileData.email}
-                      onChange={(e) =>
-                        setProfileData((prev) => ({ ...prev, email: e.target.value }))
-                      }
-                      required
-                    />
+                  <div className="h-px bg-brand-gold/20" />
+
+                  {/* Email */}
+                  <div className="group cursor-pointer py-3" onClick={() => startEdit("email")}>
+                    <label className="text-xs text-brand-dark/50 block mb-1">Email</label>
+                    {editState.field === "email" ? (
+                      <div className="flex gap-2 items-center">
+                        <input
+                          autoFocus
+                          type="email"
+                          value={editState.value}
+                          onChange={(e) =>
+                            setEditState((prev) => ({
+                              ...prev,
+                              value: e.target.value,
+                            }))
+                          }
+                          className="flex-1 bg-transparent border-b border-brand-gold text-brand-dark placeholder:text-brand-dark/30 focus:outline-none py-1"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") saveEdit();
+                            if (e.key === "Escape") cancelEdit();
+                          }}
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            saveEdit();
+                          }}
+                          className="p-1.5 text-brand-gold hover:bg-brand-gold/10 rounded transition-colors"
+                        >
+                          <Check size={16} />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            cancelEdit();
+                          }}
+                          className="p-1.5 text-brand-dark/40 hover:bg-brand-dark/5 rounded transition-colors"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <p className="text-brand-dark group-hover:text-brand-gold transition-colors">
+                        {profileData.email}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="sekolah">Sekolah</Label>
-                    <Input
-                      id="sekolah"
-                      value={profileData.sekolah}
-                      onChange={(e) =>
-                        setProfileData((prev) => ({ ...prev, sekolah: e.target.value }))
-                      }
-                      required
-                    />
-                  </div>
+                  <div className="h-px bg-brand-gold/20" />
 
-                  <div className="space-y-2">
-                    <Label htmlFor="foto_profil">URL Foto Profil (GitHub/jsDelivr)</Label>
-                    <Input
-                      id="foto_profil"
-                      type="url"
-                      placeholder="https://..."
-                      value={profileData.foto_profil}
-                      onChange={(e) =>
-                        setProfileData((prev) => ({ ...prev, foto_profil: e.target.value }))
-                      }
-                    />
-                    <p className="text-xs text-brand-dark/50">
-                      Upload foto ke GitHub repository Anda dan gunakan jsDelivr URL
-                    </p>
-                  </div>
-
-                  <div className="flex justify-end gap-2 pt-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setIsEditingProfile(false)}
-                    >
-                      Batal
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="bg-brand-gold hover:bg-brand-gold/80 text-brand-dark"
-                    >
-                      Simpan Perubahan
-                    </Button>
-                  </div>
-                </form>
-              ) : (
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-brand-dark/60">Nama</p>
-                    <p className="font-medium">{profileData.nama}</p>
-                  </div>
-                  <Separator />
-                  <div>
-                    <p className="text-sm text-brand-dark/60">Email</p>
-                    <p className="font-medium">{profileData.email}</p>
-                  </div>
-                  <Separator />
-                  <div>
-                    <p className="text-sm text-brand-dark/60">Sekolah</p>
-                    <p className="font-medium">{profileData.sekolah}</p>
+                  {/* Sekolah */}
+                  <div className="group cursor-pointer py-3" onClick={() => startEdit("sekolah")}>
+                    <label className="text-xs text-brand-dark/50 block mb-1">Sekolah</label>
+                    {editState.field === "sekolah" ? (
+                      <div className="flex gap-2 items-center">
+                        <input
+                          autoFocus
+                          type="text"
+                          value={editState.value}
+                          onChange={(e) =>
+                            setEditState((prev) => ({
+                              ...prev,
+                              value: e.target.value,
+                            }))
+                          }
+                          className="flex-1 bg-transparent border-b border-brand-gold text-brand-dark placeholder:text-brand-dark/30 focus:outline-none py-1"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") saveEdit();
+                            if (e.key === "Escape") cancelEdit();
+                          }}
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            saveEdit();
+                          }}
+                          className="p-1.5 text-brand-gold hover:bg-brand-gold/10 rounded transition-colors"
+                        >
+                          <Check size={16} />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            cancelEdit();
+                          }}
+                          className="p-1.5 text-brand-dark/40 hover:bg-brand-dark/5 rounded transition-colors"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <p className="text-brand-dark group-hover:text-brand-gold transition-colors">
+                        {profileData.sekolah}
+                      </p>
+                    )}
                   </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Card className="border-brand-gold/30">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Lock className="w-5 h-5 text-brand-gold" />
-                <CardTitle>Keamanan</CardTitle>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsChangingPassword(!isChangingPassword)}
-                className="border-brand-gold/30"
-              >
-                {isChangingPassword ? "Batal" : "Ubah Password"}
-              </Button>
-            </CardHeader>
-            <CardContent>
-              {isChangingPassword ? (
-                <form onSubmit={handlePasswordSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="password_lama">Password Lama</Label>
-                    <Input
-                      id="password_lama"
-                      type="password"
-                      value={passwordData.password_lama}
-                      onChange={(e) =>
-                        setPasswordData((prev) => ({ ...prev, password_lama: e.target.value }))
-                      }
-                      required
-                    />
-                  </div>
+            </motion.div>
+          )}
 
-                  <div className="space-y-2">
-                    <Label htmlFor="password_baru">Password Baru</Label>
-                    <Input
-                      id="password_baru"
-                      type="password"
-                      value={passwordData.password_baru}
-                      onChange={(e) =>
-                        setPasswordData((prev) => ({ ...prev, password_baru: e.target.value }))
-                      }
-                      required
-                      minLength={8}
-                    />
-                    <p className="text-xs text-brand-dark/50">Minimal 8 karakter</p>
-                  </div>
+          {activeTab === "keamanan" && (
+            <motion.div
+              key="keamanan"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="bg-white border border-brand-gold/30 rounded-xl p-6 shadow-sm shadow-black/5">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold text-brand-dark">Keamanan</h3>
+                  {!isChangingPassword && (
+                    <p className="text-xs text-brand-dark/50">Terakhir diubah: 14 hari lalu</p>
+                  )}
+                </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="konfirmasi_password">Konfirmasi Password Baru</Label>
-                    <Input
-                      id="konfirmasi_password"
-                      type="password"
-                      value={passwordData.konfirmasi_password}
-                      onChange={(e) =>
-                        setPasswordData((prev) => ({
-                          ...prev,
-                          konfirmasi_password: e.target.value,
-                        }))
-                      }
-                      required
-                      minLength={8}
-                    />
-                  </div>
+                {!isChangingPassword ? (
+                  <button
+                    onClick={() => setIsChangingPassword(true)}
+                    className="px-4 py-2 bg-brand-dark hover:bg-brand-dark/90 text-brand-cream font-medium text-sm rounded-lg transition-colors"
+                  >
+                    Ubah Password
+                  </button>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <form onSubmit={handlePasswordChange} className="space-y-5">
+                      {/* Password Lama */}
+                      <div>
+                        <label className="text-xs text-brand-dark/50 block mb-1">
+                          Password Lama
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showPasswords.old ? "text" : "password"}
+                            value={passwordData.password_lama}
+                            onChange={(e) =>
+                              setPasswordData((prev) => ({
+                                ...prev,
+                                password_lama: e.target.value,
+                              }))
+                            }
+                            className="w-full bg-transparent border-b border-brand-gold/30 text-brand-dark placeholder:text-brand-dark/30 focus:outline-none focus:border-brand-gold transition-colors pr-8 py-1"
+                            required
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setShowPasswords((prev) => ({
+                                ...prev,
+                                old: !prev.old,
+                              }))
+                            }
+                            className="absolute right-0 top-1/2 -translate-y-1/2 text-brand-dark/40 hover:text-brand-dark transition-colors"
+                          >
+                            {showPasswords.old ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                        </div>
+                      </div>
 
-                  <div className="flex justify-end gap-2 pt-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setIsChangingPassword(false)}
-                    >
-                      Batal
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="bg-brand-gold hover:bg-brand-gold/80 text-brand-dark"
-                    >
-                      Ubah Password
-                    </Button>
-                  </div>
-                </form>
-              ) : (
-                <p className="text-sm text-brand-dark/60">
-                  Klik "Ubah Password" untuk mengubah kata sandi Anda
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
+                      <div className="h-px bg-brand-gold/20" />
+
+                      {/* Password Baru */}
+                      <div>
+                        <label className="text-xs text-brand-dark/50 block mb-1">
+                          Password Baru
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showPasswords.new ? "text" : "password"}
+                            value={passwordData.password_baru}
+                            onChange={(e) =>
+                              setPasswordData((prev) => ({
+                                ...prev,
+                                password_baru: e.target.value,
+                              }))
+                            }
+                            className="w-full bg-transparent border-b border-brand-gold/30 text-brand-dark placeholder:text-brand-dark/30 focus:outline-none focus:border-brand-gold transition-colors pr-8 py-1"
+                            required
+                            minLength={8}
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setShowPasswords((prev) => ({
+                                ...prev,
+                                new: !prev.new,
+                              }))
+                            }
+                            className="absolute right-0 top-1/2 -translate-y-1/2 text-brand-dark/40 hover:text-brand-dark transition-colors"
+                          >
+                            {showPasswords.new ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                        </div>
+
+                        {/* Strength Requirements */}
+                        <div className="mt-3 space-y-2">
+                          <div
+                            className={`flex items-center gap-2 text-xs transition-colors ${
+                              strength.minLength ? "text-green-600" : "text-brand-dark/40"
+                            }`}
+                          >
+                            <div
+                              className={`w-4 h-4 rounded border flex items-center justify-center ${
+                                strength.minLength
+                                  ? "border-green-600 bg-green-50"
+                                  : "border-brand-dark/20"
+                              }`}
+                            >
+                              {strength.minLength && <Check size={12} className="text-green-600" />}
+                            </div>
+                            Minimal 8 karakter
+                          </div>
+
+                          <div
+                            className={`flex items-center gap-2 text-xs transition-colors ${
+                              strength.hasNumber ? "text-green-600" : "text-brand-dark/40"
+                            }`}
+                          >
+                            <div
+                              className={`w-4 h-4 rounded border flex items-center justify-center ${
+                                strength.hasNumber
+                                  ? "border-green-600 bg-green-50"
+                                  : "border-brand-dark/20"
+                              }`}
+                            >
+                              {strength.hasNumber && <Check size={12} className="text-green-600" />}
+                            </div>
+                            Mengandung angka
+                          </div>
+
+                          <div
+                            className={`flex items-center gap-2 text-xs transition-colors ${
+                              strength.hasUppercase ? "text-green-600" : "text-brand-dark/40"
+                            }`}
+                          >
+                            <div
+                              className={`w-4 h-4 rounded border flex items-center justify-center ${
+                                strength.hasUppercase
+                                  ? "border-green-600 bg-green-50"
+                                  : "border-brand-dark/20"
+                              }`}
+                            >
+                              {strength.hasUppercase && (
+                                <Check size={12} className="text-green-600" />
+                              )}
+                            </div>
+                            Mengandung huruf besar
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="h-px bg-brand-gold/20" />
+
+                      {/* Konfirmasi */}
+                      <div>
+                        <label className="text-xs text-brand-dark/50 block mb-1">
+                          Konfirmasi Password Baru
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showPasswords.confirm ? "text" : "password"}
+                            value={passwordData.konfirmasi_password}
+                            onChange={(e) =>
+                              setPasswordData((prev) => ({
+                                ...prev,
+                                konfirmasi_password: e.target.value,
+                              }))
+                            }
+                            className="w-full bg-transparent border-b border-brand-gold/30 text-brand-dark placeholder:text-brand-dark/30 focus:outline-none focus:border-brand-gold transition-colors pr-8 py-1"
+                            required
+                            minLength={8}
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setShowPasswords((prev) => ({
+                                ...prev,
+                                confirm: !prev.confirm,
+                              }))
+                            }
+                            className="absolute right-0 top-1/2 -translate-y-1/2 text-brand-dark/40 hover:text-brand-dark transition-colors"
+                          >
+                            {showPasswords.confirm ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex justify-end gap-2 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsChangingPassword(false);
+                            setPasswordData({
+                              password_lama: "",
+                              password_baru: "",
+                              konfirmasi_password: "",
+                            });
+                          }}
+                          className="px-4 py-2 border border-brand-gold/30 text-brand-dark hover:bg-brand-gold/10 text-sm rounded-lg transition-colors"
+                        >
+                          Batal
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={strengthCount < 3}
+                          className="px-4 py-2 bg-brand-dark hover:bg-brand-dark/90 disabled:opacity-50 disabled:cursor-not-allowed text-brand-cream font-medium text-sm rounded-lg transition-colors"
+                        >
+                          Ubah Password
+                        </button>
+                      </div>
+                    </form>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </DashboardLayout>
   );

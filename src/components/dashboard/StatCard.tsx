@@ -1,60 +1,92 @@
 import { ReactNode } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { BookOpen, Star, Clock, Trophy } from "lucide-react";
 
 interface StatCardProps {
   title: string;
   value: string | number;
-  icon: ReactNode;
-  variant?: "primary" | "secondary" | "counter";
   description?: string;
+  status?: "active" | "finished" | "paused";
+  characterImage?: string;
+  icon?: ReactNode;
 }
 
-const variantStyles = {
-  primary: {
-    container: "bg-brand-dark border-brand-gold/40 shadow-lg shadow-brand-gold/20",
-    title: "text-brand-cream/70 text-sm",
-    value: "text-brand-light-gold text-4xl",
-    icon: "text-brand-gold",
+const statusConfig = {
+  active: {
+    label: "Active",
+    icon: <BookOpen className="w-3 h-3" />,
+    bg: "bg-blue-500",
+    text: "text-white",
   },
-  secondary: {
-    container: "bg-brand-cream border-brand-gold/20 shadow-sm",
-    title: "text-brand-dark/60 text-sm",
-    value: "text-brand-dark text-2xl",
-    icon: "text-brand-gold",
+  finished: {
+    label: "Finished",
+    icon: <Trophy className="w-3 h-3" />,
+    bg: "bg-emerald-500",
+    text: "text-white",
   },
-  counter: {
-    container: "bg-transparent border-brand-gold/30 shadow-none",
-    title: "text-brand-dark/70 text-xs uppercase tracking-wider",
-    value: "text-brand-dark text-3xl font-display",
-    icon: "text-brand-gold/60",
+  paused: {
+    label: "Paused",
+    icon: <Clock className="w-3 h-3" />,
+    bg: "bg-amber-500",
+    text: "text-white",
   },
 };
+
+const defaultIcons = [
+  <BookOpen className="w-4 h-4" />,
+  <Star className="w-4 h-4" />,
+  <Clock className="w-4 h-4" />,
+  <Trophy className="w-4 h-4" />,
+];
 
 export function StatCard({
   title,
   value,
-  icon,
-  variant = "secondary",
   description,
+  status = "active",
+  characterImage,
+  icon,
 }: StatCardProps) {
-  const styles = variantStyles[variant];
+  const statusStyle = statusConfig[status];
+  const displayIcon = icon || defaultIcons[0];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={variant !== "counter" ? { y: -4 } : undefined}
-      className={cn("rounded-lg border p-6 transition-all duration-300", styles.container)}
+      whileHover={{ y: -4 }}
+      className="relative bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
     >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className={styles.title}>{title}</p>
-          <p className={cn("mt-3 font-bold font-display", styles.value)}>{value}</p>
-          {description && <p className="mt-2 text-xs text-brand-dark/50">{description}</p>}
+      {/* Status Badge */}
+      <div className={cn("inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold", statusStyle.bg, statusStyle.text)}>
+        {statusStyle.icon}
+        {statusStyle.label}
+      </div>
+
+      {/* Content */}
+      <div className="mt-3 pr-16">
+        <h3 className="text-lg font-bold text-gray-800">{title}</h3>
+        <p className="text-sm text-gray-500 mt-1">{value}</p>
+      </div>
+
+      {/* Character Illustration */}
+      {characterImage && (
+        <div className="absolute bottom-0 right-0 w-20 h-24">
+          <img
+            src={characterImage}
+            alt=""
+            className="w-full h-full object-contain object-bottom"
+          />
         </div>
-        <div className={cn("p-3 rounded-lg", styles.icon)}>{icon}</div>
+      )}
+
+      {/* Decorative dots */}
+      <div className="absolute top-5 right-5 flex gap-1">
+        <div className="w-1 h-1 rounded-full bg-gray-300" />
+        <div className="w-1 h-1 rounded-full bg-gray-300" />
+        <div className="w-1 h-1 rounded-full bg-gray-300" />
       </div>
     </motion.div>
   );

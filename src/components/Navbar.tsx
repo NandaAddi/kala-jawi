@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useSpring, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
+import logoImage from "@/assets/kala-jawi-navbar.webp";
 
 const navItems = [
   { label: "Beranda", href: "/" },
@@ -18,26 +19,11 @@ function SlideRevealLogo() {
       <motion.div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        animate={{ scale: hovered ? 1.03 : 1 }}
+        animate={{ scale: hovered ? 1.05 : 1 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative overflow-hidden rounded-lg px-2 py-1 text-2xl font-bold tracking-tight text-brand-cream font-display focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2"
+        className="focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2"
       >
-        <motion.span
-          className="absolute inset-0 origin-left"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: hovered ? 1 : 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            background: "linear-gradient(to right, #c9953c, #e8c878)",
-          }}
-        />
-        <motion.span
-          className="relative z-10"
-          animate={{ scale: hovered ? 1.05 : 1 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        >
-          Kala<span className="text-brand-gold">jawi</span>
-        </motion.span>
+        <img src={logoImage} alt="Kala Jawi Logo" className="h-10 w-auto" />
       </motion.div>
     </Link>
   );

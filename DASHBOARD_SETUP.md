@@ -93,11 +93,13 @@ src/
 ## 🔐 Authentication Flow
 
 **Current (Development):**
+
 - Mock auth stores user in localStorage
 - No real password validation
 - User persists across page refreshes
 
 **Next Steps (Integration):**
+
 - Replace with Supabase Auth
 - Add email verification
 - Implement real password hashing
@@ -134,19 +136,24 @@ The API layer (`src/lib/api/dashboard.ts`) includes mock implementations for all
 ## ✨ Features Implemented
 
 ### Smart Recommendations (FR-6)
+
 Algorithm checks student progress and suggests:
+
 - Repeat current material if score < 75
 - Advance to next chapter if score ≥ 75
 - Manual override available
 
 ### Auto Insights (FR-5)
+
 Analyzes class data and generates insights like:
 _"Sebagian besar siswa telah menguasai materi Museum dan Chapter 1, namun masih memerlukan penguatan pada Chapter 2..."_
 
 ### Real-time Updates
+
 Dashboard stats update every 2 minutes via TanStack Query polling.
 
 ### Responsive Design
+
 - Desktop-first approach
 - Mobile-friendly interface
 - Tablet support
@@ -156,21 +163,25 @@ Dashboard stats update every 2 minutes via TanStack Query polling.
 ## 🧪 Testing
 
 ### Run Development Server
+
 ```bash
 bun dev
 ```
 
 ### Build for Production
+
 ```bash
 bun build
 ```
 
 ### Lint Code
+
 ```bash
 bun lint
 ```
 
 ### Format Code
+
 ```bash
 bun format
 ```
@@ -190,6 +201,7 @@ bun format
 ## 📞 Support
 
 For questions about dashboard features, refer to:
+
 - Original PRD: `PRD_Dashboard_Guru_KalaJawi.md`
 - Database Schema: `supabase-schema.sql`
 - Environment Setup: `.env.example`

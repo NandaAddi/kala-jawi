@@ -88,22 +88,22 @@ function TentangPage() {
 
       <Navbar />
 
-      <main className="relative z-10 pt-32 pb-24 px-4">
-        <div className="mx-auto max-w-6xl">
+      <main className="relative z-10 px-4 sm:px-8 lg:px-16 pt-28 sm:pt-32 pb-20 sm:pb-24">
+        <div className="mx-auto max-w-7xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="mb-32"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
               <div className="lg:col-span-5">
-                <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-dark leading-[0.95] mb-6">
+                <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[0.95] mb-6">
                   Tentang Kala-Jawi
                 </h1>
               </div>
               <div className="lg:col-span-7 lg:pt-3">
-                <p className="text-lg sm:text-xl text-brand-dark/80 leading-relaxed max-w-[55ch]">
+                <p className="text-lg sm:text-xl text-white/80 leading-relaxed max-w-[55ch]">
                   Platform pembelajaran digital berbasis game edukasi yang mengintegrasikan budaya
                   Jawa dengan pendekatan Problem Based Learning.
                 </p>
@@ -114,15 +114,15 @@ function TentangPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="mt-24 mb-28 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16"
           >
             <div className="space-y-8">
               <div>
-                <h2 className="font-display text-3xl font-bold text-brand-dark mb-4">
+                <h2 className="font-display text-3xl font-bold text-white mb-4">
                   Untuk Siswa: Pengelana Waktu
                 </h2>
-                <p className="text-brand-dark/70 leading-relaxed">
+                <p className="text-white/70 leading-relaxed">
                   Melalui peran sebagai Pengelana Waktu, siswa diajak menyelesaikan berbagai misteri
                   budaya, mempelajari sejarah, aksara Jawa, unggah-ungguh, dan gamelan dalam sebuah
                   petualangan yang interaktif.
@@ -132,10 +132,10 @@ function TentangPage() {
 
             <div className="space-y-8">
               <div>
-                <h2 className="font-display text-3xl font-bold text-brand-dark mb-4">
+                <h2 className="font-display text-3xl font-bold text-white mb-4">
                   Untuk Guru: Penjaga Waktu
                 </h2>
-                <p className="text-brand-dark/70 leading-relaxed">
+                <p className="text-white/70 leading-relaxed">
                   Bertugas memantau perkembangan siswa melalui dashboard pembelajaran, mengelola
                   kelas, mengkurasi modul pembelajaran, serta menganalisis capaian kompetensi budaya
                   siswa.

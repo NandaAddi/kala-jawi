@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { KuratorSkeleton } from "@/components/dashboard/skeletons/KuratorSkeleton";
+import { useMinLoadingDelay } from "@/hooks/useMinLoadingDelay";
 import {
   getSiswaList,
   getRekomendasiSistem,
@@ -21,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton, SkeletonCard, SkeletonText } from "@/components/ui/skeleton";
 import { Lightbulb, Sparkles, Save } from "lucide-react";
 import { toast } from "sonner";
 import type { Siswa } from "@/types/dashboard";
@@ -35,12 +38,12 @@ function KuratorPage() {
   const user = getMockUser();
   const queryClient = useQueryClient();
 
-  const { data: siswaList } = useQuery({
+  const { data: siswaList, isLoading: isLoadingSiswa } = useQuery({
     queryKey: ["siswa"],
     queryFn: () => getSiswaList(),
   });
 
-  const { data: chapters } = useQuery({
+  const { data: chapters, isLoading: isLoadingChapters } = useQuery({
     queryKey: ["chapters"],
     queryFn: () => getChapterList(),
   });
@@ -64,6 +67,7 @@ function KuratorPage() {
   });
 
   const selectedSiswa = siswaList?.find((s) => s.id === selectedSiswaId);
+  const showRekomendasiSkeleton = useMinLoadingDelay(isLoadingRekomendasi);
 
   const handleSaveRekomendasi = () => {
     if (!selectedSiswaId || !user) return;
@@ -172,11 +176,27 @@ function KuratorPage() {
           </motion.div>
         )}
 
-        {selectedSiswaId && isLoadingRekomendasi && (
-          <div className="text-center py-8 text-brand-dark/50">Menganalisis data siswa...</div>
+        {selectedSiswaId && showRekomendasiSkeleton && (
+          <SkeletonCard className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Skeleton className="w-5 h-5 rounded bg-brand-gold/20" />
+                <Skeleton className="h-5 w-40 rounded bg-brand-dark/10" />
+              </div>
+              <div className="space-y-2">
+                <SkeletonText width="w-24" className="h-3" />
+                <Skeleton className="h-6 w-48 rounded bg-brand-gold/15" />
+              </div>
+              <div className="space-y-2">
+                <SkeletonText width="w-16" className="h-3" />
+                <SkeletonText width="w-full" className="h-3" />
+                <SkeletonText width="w-3/4" className="h-3" />
+              </div>
+            </div>
+          </SkeletonCard>
         )}
 
-        {selectedSiswaId && !isLoadingRekomendasi && rekomendasi && (
+        {selectedSiswaId && !showRekomendasiSkeleton && rekomendasi && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -203,7 +223,7 @@ function KuratorPage() {
           </motion.div>
         )}
 
-        {selectedSiswaId && !isLoadingRekomendasi && !rekomendasi && (
+        {selectedSiswaId && !showRekomendasiSkeleton && !rekomendasi && (
           <Card>
             <CardContent className="py-8 text-center text-brand-dark/50">
               <Lightbulb className="w-12 h-12 mx-auto mb-3 text-brand-gold/50" />

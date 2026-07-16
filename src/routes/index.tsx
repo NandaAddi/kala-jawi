@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import temple from "@/assets/temple.webp";
 import batikBg from "@/assets/batik.webp";
+import logoImage from "@/assets/kala-jawi-logo.webp";
 import { Navbar } from "@/components/Navbar";
 import { SlideRevealButton } from "@/components/SlideRevealButton";
 
@@ -78,13 +79,15 @@ function Index() {
           animate="show"
           className="space-y-10 md:col-span-2"
         >
-          <motion.h1
-            variants={fadeUp}
-            className="text-5xl text-white sm:text-6xl md:text-8xl lg:text-9xl font-display drop-shadow-lg"
-            style={{ lineHeight: 1 }}
-          >
-            Kala jawi
-          </motion.h1>
+          <motion.div variants={fadeUp} className="w-full max-w-sm">
+            <img
+              src={logoImage}
+              alt="Kala Jawi Logo"
+              width={400}
+              height={400}
+              className="h-auto w-full drop-shadow-lg"
+            />
+          </motion.div>
 
           <motion.p
             variants={fadeUp}

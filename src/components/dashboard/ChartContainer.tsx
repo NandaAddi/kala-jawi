@@ -30,30 +30,38 @@ export function ChartContainer({
         className,
       )}
     >
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-bold text-brand-cream font-display">{title}</h2>
-            {description && <p className="text-sm text-brand-cream/70 mt-1">{description}</p>}
+            <h2 className="text-2xl font-bold text-brand-cream font-display leading-tight">
+              {title}
+            </h2>
+            {description && (
+              <p className="text-sm text-brand-cream/70 mt-2 leading-relaxed">{description}</p>
+            )}
           </div>
         </div>
 
         {mini_stats && mini_stats.length > 0 && (
-          <div className="flex flex-wrap gap-4 pt-4 border-t border-brand-gold/20">
+          <div className="flex flex-wrap gap-6 pt-4 border-t border-brand-gold/30">
             {mini_stats.map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.5,
-                  delay: index * 0.1,
+                  delay: 0.1 + index * 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className="flex flex-col"
               >
-                <p className="text-xs text-brand-cream/60 uppercase tracking-wider">{stat.label}</p>
-                <p className="text-lg font-bold text-brand-light-gold mt-1">{stat.value}</p>
+                <p className="text-xs text-brand-cream/60 uppercase tracking-wider font-semibold">
+                  {stat.label}
+                </p>
+                <p className="text-2xl font-bold text-brand-light-gold mt-1 font-display">
+                  {stat.value}
+                </p>
               </motion.div>
             ))}
           </div>

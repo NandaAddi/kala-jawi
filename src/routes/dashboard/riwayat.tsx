@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { ActivityTimeline } from "@/components/dashboard/ActivityTimeline";
+import { RiwayatSkeleton } from "@/components/dashboard/skeletons/RiwayatSkeleton";
+import { useMinLoadingDelay } from "@/hooks/useMinLoadingDelay";
 import { getRiwayatAktivitas, getKelasList } from "@/lib/api/dashboard";
 import { getMockUser } from "@/lib/auth";
 import {
@@ -46,6 +48,8 @@ function RiwayatPage() {
       }),
   });
 
+  const showSkeleton = useMinLoadingDelay(isLoading);
+
   const handleDateFilterChange = (field: "tanggal_mulai" | "tanggal_akhir", value: string) => {
     setFilters((prev) => ({
       ...prev,
@@ -53,10 +57,10 @@ function RiwayatPage() {
     }));
   };
 
-  if (isLoading) {
+  if (showSkeleton) {
     return (
-      <DashboardLayout title="Riwayat Aktivitas">
-        <div className="text-center py-8">Loading...</div>
+      <DashboardLayout title="Riwayat Aktivitas" subtitle="Memuat log aktivitas...">
+        <RiwayatSkeleton />
       </DashboardLayout>
     );
   }

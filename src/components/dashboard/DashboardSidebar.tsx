@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { LogoutDialog } from "./LogoutDialog";
+import logoImage from "@/assets/kala-jawi-sidebar.webp";
 
 interface DashboardSidebarProps {
   isOpen?: boolean;
@@ -71,10 +72,9 @@ export function DashboardSidebar({ isOpen = false, onClose }: DashboardSidebarPr
         )}
       >
         <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h2 className="font-display text-2xl font-bold text-brand-light-gold">Kala Jawi</h2>
-            <p className="text-xs text-brand-cream/60 mt-1">Dashboard Guru</p>
-          </div>
+          <Link to="/dashboard">
+            <img src={logoImage} alt="Kala Jawi Logo" className="h-20 w-auto" />
+          </Link>
           <button
             type="button"
             onClick={onClose}
@@ -101,11 +101,12 @@ export function DashboardSidebar({ isOpen = false, onClose }: DashboardSidebarPr
                       key={item.id}
                       to={item.href}
                       className={cn(
-                        "relative flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 group",
+                        "relative flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 group focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2",
                         active
                           ? "text-brand-gold bg-brand-gold/10"
                           : "text-brand-cream/70 hover:text-brand-cream hover:bg-brand-dark/60",
                       )}
+                      aria-current={active ? "page" : undefined}
                     >
                       {active && (
                         <motion.div
@@ -117,7 +118,7 @@ export function DashboardSidebar({ isOpen = false, onClose }: DashboardSidebarPr
                         />
                       )}
                       <Icon className="w-5 h-5 flex-shrink-0" />
-                      <span className="text-sm font-medium">{item.label}</span>
+                      <span className="text-sm font-medium leading-snug">{item.label}</span>
                     </Link>
                   );
                 })}
@@ -126,11 +127,11 @@ export function DashboardSidebar({ isOpen = false, onClose }: DashboardSidebarPr
           ))}
         </nav>
 
-        <div className="border-t border-brand-gold/20 pt-4 mt-auto">
+        <div className="border-t border-brand-gold/30 pt-4 mt-auto">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
             <LogoutDialog />
           </motion.div>

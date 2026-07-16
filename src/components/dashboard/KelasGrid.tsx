@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { createKelas, deleteKelas, getKelasList } from "@/lib/api/dashboard";
 import { getMockUser } from "@/lib/auth";
+import { KelasSkeleton } from "@/components/dashboard/skeletons/KelasSkeleton";
+import { useMinLoadingDelay } from "@/hooks/useMinLoadingDelay";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { CreateKelasInput } from "@/types/dashboard";
@@ -80,23 +82,23 @@ export function KelasGrid() {
     setFormData((prev) => ({ ...prev, kode_kelas: `KJ${random}` }));
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-brand-dark/50">Loading...</div>
-      </div>
-    );
+  const showSkeleton = useMinLoadingDelay(isLoading);
+
+  if (showSkeleton) {
+    return <KelasSkeleton />;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <p className="text-sm text-brand-dark/60">{kelasList?.length || 0} kelas aktif</p>
+        <p className="text-sm text-brand-dark/70 font-medium">
+          {kelasList?.length || 0} kelas aktif
+        </p>
         <Button
           onClick={() => setIsDialogOpen(true)}
-          className="bg-brand-gold hover:bg-brand-gold/80 text-brand-dark font-semibold"
+          className="bg-brand-gold hover:bg-brand-gold/80 text-brand-dark font-semibold h-10"
         >
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-5 h-5 mr-2" />
           Tambah Kelas
         </Button>
       </div>
@@ -110,40 +112,39 @@ export function KelasGrid() {
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.5,
-                delay: index * 0.05,
+                delay: 0.1 + index * 0.05,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group relative rounded-lg border border-brand-gold/30 bg-white p-6 transition-all duration-300 hover:border-brand-gold/50 hover:shadow-lg hover:shadow-brand-gold/10 hover:-translate-y-1"
+              className="group relative rounded-lg border border-brand-gold/30 bg-white p-6 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-lg hover:shadow-brand-gold/10 hover:-translate-y-1"
             >
               <button
                 onClick={() => setDeleteId(kelas.id)}
-                className="absolute top-4 right-4 p-2 rounded-lg text-brand-dark/40 hover:text-red-500 hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100"
+                className="absolute top-4 right-4 p-2 rounded-lg text-brand-dark/40 hover:text-red-500 hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2"
+                aria-label="Hapus kelas"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
 
               <div className="mb-4">
-                <h3 className="font-bold text-brand-dark text-xl mb-2 font-display truncate">
+                <h3 className="font-bold text-brand-dark text-lg leading-snug font-display truncate pr-8">
                   {kelas.nama_kelas}
                 </h3>
-                <div className="flex items-center gap-2 text-sm">
-                  <Code className="w-4 h-4 text-brand-gold" />
-                  <code className="font-mono text-brand-gold font-semibold">
+                <div className="flex items-center gap-2 text-sm mt-2">
+                  <Code className="w-4 h-4 text-brand-gold flex-shrink-0" />
+                  <code className="font-mono text-brand-gold font-semibold text-sm">
                     {kelas.kode_kelas}
                   </code>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-brand-gold/20">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Users className="w-5 h-5 text-brand-gold" />
-                    <div>
-                      <p className="text-xs text-brand-dark/60">Total Siswa</p>
-                      <p className="text-lg font-bold text-brand-dark font-display">
-                        {kelas.jumlah_siswa}
-                      </p>
-                    </div>
+              <div className="pt-4 border-t border-brand-gold/30">
+                <div className="flex items-center gap-3">
+                  <Users className="w-5 h-5 text-brand-gold flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-brand-dark/70 font-semibold">Total Siswa</p>
+                    <p className="text-lg font-bold text-brand-dark font-display leading-tight">
+                      {kelas.jumlah_siswa}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -151,11 +152,11 @@ export function KelasGrid() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-12 px-4 rounded-lg border border-brand-gold/30 bg-brand-dark/5">
+        <div className="flex flex-col items-center justify-center py-16 px-4 rounded-lg border border-brand-gold/30 bg-brand-dark/5">
           <div className="w-16 h-16 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
             <Plus className="w-8 h-8 text-brand-dark/30" />
           </div>
-          <p className="text-center text-brand-dark/50 font-medium mb-4">
+          <p className="text-center text-brand-dark/70 font-medium text-sm">
             Belum ada kelas. Klik "Tambah Kelas" untuk membuat kelas baru.
           </p>
         </div>

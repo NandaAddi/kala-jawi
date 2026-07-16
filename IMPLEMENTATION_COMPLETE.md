@@ -4,17 +4,17 @@
 
 ### ✅ All 9 Modules Complete
 
-| Module | File | Status |
-|--------|------|--------|
-| Dashboard (FR-1) | `src/routes/dashboard/index.tsx` | ✅ Complete |
-| Kelas (FR-2) | `src/routes/dashboard/kelas/index.tsx` | ✅ Complete |
-| Siswa (FR-3) | `src/routes/dashboard/siswa/index.tsx` | ✅ Complete |
+| Module              | File                                      | Status      |
+| ------------------- | ----------------------------------------- | ----------- |
+| Dashboard (FR-1)    | `src/routes/dashboard/index.tsx`          | ✅ Complete |
+| Kelas (FR-2)        | `src/routes/dashboard/kelas/index.tsx`    | ✅ Complete |
+| Siswa (FR-3)        | `src/routes/dashboard/siswa/index.tsx`    | ✅ Complete |
 | Detail Siswa (FR-4) | `src/routes/dashboard/siswa/$siswaId.tsx` | ✅ Complete |
-| Analisis (FR-5) | `src/routes/dashboard/analisis.tsx` | ✅ Complete |
-| Kurator (FR-6) | `src/routes/dashboard/kurator.tsx` | ✅ Complete |
-| Riwayat (FR-7) | `src/routes/dashboard/riwayat.tsx` | ✅ Complete |
-| Profil (FR-8) | `src/routes/dashboard/profil.tsx` | ✅ Complete |
-| Logout (FR-9) | Component in sidebar | ✅ Complete |
+| Analisis (FR-5)     | `src/routes/dashboard/analisis.tsx`       | ✅ Complete |
+| Kurator (FR-6)      | `src/routes/dashboard/kurator.tsx`        | ✅ Complete |
+| Riwayat (FR-7)      | `src/routes/dashboard/riwayat.tsx`        | ✅ Complete |
+| Profil (FR-8)       | `src/routes/dashboard/profil.tsx`         | ✅ Complete |
+| Logout (FR-9)       | Component in sidebar                      | ✅ Complete |
 
 ---
 
@@ -88,6 +88,7 @@ Visit: http://localhost:5173/login
 ### 4. Explore Dashboard
 
 Navigate through the sidebar:
+
 - ✅ Dashboard - View stats & activity
 - ✅ Kelas - Add/delete classes
 - ✅ Siswa - Filter & sort students
@@ -102,12 +103,12 @@ Navigate through the sidebar:
 
 ## 🔧 Quality Assurance
 
-| Check | Result |
-|-------|--------|
-| Build | ✅ Success (3968 modules) |
-| Lint | ✅ Passed (0 errors, 6 pre-existing UI warnings) |
-| Format | ✅ All files formatted with Prettier |
-| TypeScript | ✅ Type-safe throughout |
+| Check      | Result                                           |
+| ---------- | ------------------------------------------------ |
+| Build      | ✅ Success (3968 modules)                        |
+| Lint       | ✅ Passed (0 errors, 6 pre-existing UI warnings) |
+| Format     | ✅ All files formatted with Prettier             |
+| TypeScript | ✅ Type-safe throughout                          |
 
 ---
 

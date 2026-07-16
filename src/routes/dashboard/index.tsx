@@ -4,9 +4,12 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { ActivityTimeline } from "@/components/dashboard/ActivityTimeline";
 import { ChartContainer } from "@/components/dashboard/ChartContainer";
+import { DashboardHomeSkeleton } from "@/components/dashboard/skeletons/DashboardHomeSkeleton";
+import { useMinLoadingDelay } from "@/hooks/useMinLoadingDelay";
 import { getDashboardStats, getProgressTrend, getRecentActivities } from "@/lib/api/dashboard";
 import { getMockUser } from "@/lib/auth";
-import { BookOpen, Users, TrendingUp, Activity } from "lucide-react";
+import { BookOpen, Users, TrendingUp, Activity, Sun, Moon, Sunrise } from "lucide-react";
+import characterHi from "@/assets/character-hi.webp";
 import {
   LineChart,
   Line,
@@ -54,6 +57,9 @@ function DashboardPage() {
     refetchInterval: 120000,
   });
 
+  const isLoadingData = isLoadingStats || isLoadingTrend || isLoadingActivities;
+  const showSkeleton = useMinLoadingDelay(isLoadingData);
+
   return (
     <DashboardLayout
       title="Dashboard"
@@ -72,95 +78,148 @@ function DashboardPage() {
             Muat Ulang Halaman
           </button>
         </div>
-      ) : isLoadingStats ? (
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-max">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="h-32 rounded-lg border border-brand-gold/20 bg-brand-cream/50 animate-pulse"
-              />
-            ))}
-          </div>
-          <div className="h-96 rounded-lg border border-brand-gold/20 bg-brand-cream/50 animate-pulse" />
-        </div>
+      ) : showSkeleton ? (
+        <DashboardHomeSkeleton />
       ) : (
         <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-max">
+          {/* Greeting Card */}
+          {(() => {
+            const hour = new Date().getHours();
+            const getGreeting = () => {
+              if (hour >= 5 && hour < 12)
+                return { text: "Selamat Pagi", icon: <Sunrise className="w-6 h-6" /> };
+              if (hour >= 12 && hour < 17)
+                return { text: "Selamat Siang", icon: <Sun className="w-6 h-6" /> };
+              if (hour >= 17 && hour < 21)
+                return { text: "Selamat Sore", icon: <Sun className="w-6 h-6" /> };
+              return { text: "Selamat Malam", icon: <Moon className="w-6 h-6" /> };
+            };
+            const greeting = getGreeting();
+
+            return (
+              <div className="relative overflow-hidden rounded-2xl bg-white border border-brand-gold/30 p-6 md:p-8 pb-0 shadow-sm shadow-black/5">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+                <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-brand-gold">{greeting.icon}</span>
+                      <span className="text-sm font-medium text-brand-gold">
+                        {greeting.text}
+                      </span>
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-bold font-display text-brand-dark leading-tight">
+                      {user?.nama || "Guru"}
+                    </h2>
+                    <p className="mt-2 text-brand-dark/60 text-sm md:text-base max-w-md">
+                      Siap untuk membimbing siswa hari ini? Lihat progress dan aktivitas terbaru di bawah.
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 hidden md:block absolute -bottom-8 right-4">
+                    <img
+                      src={characterHi}
+                      alt="Karakter menyapa"
+                      className="h-44 w-auto object-contain object-bottom drop-shadow-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
               title="Total Siswa"
-              value={stats?.total_siswa || 0}
-              icon={<Users className="w-6 h-6" />}
-              variant="primary"
+              value={`${stats?.total_siswa || 0} Siswa`}
               description="Siswa aktif di platform"
+              status="active"
+              characterImage={characterHi}
             />
-            <div className="space-y-6">
-              <StatCard
-                title="Total Kelas"
-                value={stats?.total_kelas || 0}
-                icon={<BookOpen className="w-6 h-6" />}
-                variant="secondary"
-              />
-              <StatCard
-                title="Rata-rata Progress"
-                value={`${stats?.rata_progress.toFixed(1) || 0}%`}
-                icon={<TrendingUp className="w-6 h-6" />}
-                variant="secondary"
-              />
-            </div>
-            <div className="flex items-end">
-              <StatCard
-                title="Aktivitas Hari Ini"
-                value={stats?.aktivitas_hari_ini || 0}
-                icon={<Activity className="w-6 h-6" />}
-                variant="counter"
-              />
-            </div>
+            <StatCard
+              title="Total Kelas"
+              value={`${stats?.total_kelas || 0} Kelas`}
+              description="Kelas yang diampu"
+              status="finished"
+              characterImage={characterHi}
+            />
+            <StatCard
+              title="Rata-rata Progress"
+              value={`${stats?.rata_progress.toFixed(1) || 0}%`}
+              description="Progress rata-rata siswa"
+              status="active"
+              characterImage={characterHi}
+            />
+            <StatCard
+              title="Aktivitas Hari Ini"
+              value={`${stats?.aktivitas_hari_ini || 0} Aktivitas`}
+              description="Aktivitas pembelajaran"
+              status="paused"
+              characterImage={characterHi}
+            />
           </div>
 
-          <ChartContainer
-            title="Tren Progress Belajar"
-            description="7 hari terakhir"
-            mini_stats={[
-              { label: "Rata-rata", value: `${stats?.rata_progress.toFixed(1) || 0}%` },
-              { label: "Tertinggi", value: "92%" },
-            ]}
-          >
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={trendData || []}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#c9953c" opacity={0.2} />
-                <XAxis
-                  dataKey="tanggal"
-                  stroke="#e8c878"
-                  tick={{ fill: "#e8c878" }}
-                  tickFormatter={(val) => format(new Date(val), "dd/MM")}
-                />
-                <YAxis stroke="#e8c878" tick={{ fill: "#e8c878" }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#4a2c1a",
-                    border: "1px solid #c9953c",
-                    borderRadius: "8px",
-                    color: "#fdf4e3",
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="progress"
-                  stroke="#c9953c"
-                  strokeWidth={3}
-                  dot={{ fill: "#c9953c", r: 5 }}
-                  activeDot={{ r: 7 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+            <div className="lg:col-span-2">
+              <ChartContainer
+                title="Tren Progress Belajar"
+                description="7 hari terakhir"
+                mini_stats={[
+                  {
+                    label: "Rata-rata",
+                    value: `${stats?.rata_progress.toFixed(1) || 0}%`,
+                  },
+                  { label: "Tertinggi", value: "92%" },
+                ]}
+                className="h-full"
+              >
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={trendData || []}>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      className="stroke-brand-tan"
+                      opacity={0.2}
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="tanggal"
+                      className="stroke-brand-cream"
+                      tick={{ fill: "oklch(0.97 0.02 85)", fontSize: 14 }}
+                      tickFormatter={(val) => format(new Date(val), "dd/MM")}
+                    />
+                    <YAxis
+                      className="stroke-brand-cream"
+                      tick={{ fill: "oklch(0.97 0.02 85)", fontSize: 14 }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#4a2c1a",
+                        border: "1px solid #c9953c",
+                        borderRadius: "8px",
+                        color: "#fdf4e3",
+                      }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="progress"
+                      className="stroke-brand-gold"
+                      strokeWidth={3}
+                      dot={{ fill: "rgb(201, 149, 60)", r: 5 }}
+                      activeDot={{ r: 7 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
 
-          <div className="rounded-lg border border-brand-gold/30 bg-white/80 backdrop-blur-sm p-8 shadow-sm">
-            <h2 className="text-2xl font-bold text-brand-dark mb-6 font-display">
-              Aktivitas Terbaru
-            </h2>
-            <ActivityTimeline activities={activities || []} />
+            <div className="rounded-lg border border-brand-gold/30 bg-white/80 backdrop-blur-sm shadow-sm shadow-black/5 h-[600px] flex flex-col">
+              <div className="p-6 border-b border-brand-gold/30 sticky top-0 bg-white/95 backdrop-blur-sm z-10">
+                <h2 className="text-xl font-bold text-brand-dark font-display leading-tight">
+                  Aktivitas Terbaru
+                </h2>
+              </div>
+              <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                <ActivityTimeline activities={activities || []} compact />
+              </div>
+            </div>
           </div>
         </div>
       )}

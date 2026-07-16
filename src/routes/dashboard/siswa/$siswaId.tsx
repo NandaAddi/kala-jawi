@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { SiswaDetailSkeleton } from "@/components/dashboard/skeletons/SiswaDetailSkeleton";
+import { useMinLoadingDelay } from "@/hooks/useMinLoadingDelay";
 import { getSiswaDetail } from "@/lib/api/dashboard";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,8 +23,14 @@ function SiswaDetailPage() {
     queryFn: () => getSiswaDetail(siswaId),
   });
 
-  if (isLoading) {
-    return <DashboardLayout title="Loading...">Loading...</DashboardLayout>;
+  const showSkeleton = useMinLoadingDelay(isLoading);
+
+  if (showSkeleton) {
+    return (
+      <DashboardLayout title="Memuat Detail Siswa..." subtitle="Sedang memuat data siswa">
+        <SiswaDetailSkeleton />
+      </DashboardLayout>
+    );
   }
 
   if (!siswa) {

@@ -17,21 +17,23 @@ export function DashboardLayout({ children, title, subtitle }: DashboardLayoutPr
 
       <main className="flex-1 md:ml-64 flex flex-col overflow-hidden">
         {(title || subtitle) && (
-          <div className="border-b border-brand-gold/20 bg-white px-4 md:px-8 py-4 md:py-6 flex items-center gap-4">
+          <div className="border-b border-brand-gold/30 bg-white px-4 md:px-8 py-6 flex items-center gap-4 shadow-sm">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 rounded-lg hover:bg-brand-gold/10 transition-colors"
+              className="md:hidden p-2 rounded-lg hover:bg-brand-gold/10 transition-colors focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2"
               aria-label="Open menu"
             >
               <Menu className="w-6 h-6 text-brand-dark" />
             </button>
             <div className="flex-1">
               {title && (
-                <h1 className="text-2xl md:text-3xl font-bold text-brand-dark font-display">
+                <h1 className="text-3xl md:text-4xl font-bold text-brand-dark font-display leading-tight">
                   {title}
                 </h1>
               )}
-              {subtitle && <p className="text-sm text-brand-dark/60 mt-1">{subtitle}</p>}
+              {subtitle && (
+                <p className="text-sm text-brand-dark/70 mt-2 leading-relaxed">{subtitle}</p>
+              )}
             </div>
           </div>
         )}

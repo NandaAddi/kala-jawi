@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { ChartContainer } from "@/components/dashboard/ChartContainer";
+import { AnalisisSkeleton } from "@/components/dashboard/skeletons/AnalisisSkeleton";
+import { useMinLoadingDelay } from "@/hooks/useMinLoadingDelay";
 import { getAnalisisData, getKelasList } from "@/lib/api/dashboard";
 import { getMockUser } from "@/lib/auth";
 import {
@@ -13,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { KemampuanRadarChart } from "@/components/dashboard/KemampuanRadarChart";
+import { KemampuanLineChart } from "@/components/dashboard/KemampuanLineChart";
 import { DistribusiNilaiChart } from "@/components/dashboard/DistribusiNilaiChart";
 import { Lightbulb } from "lucide-react";
 
@@ -35,10 +37,12 @@ function AnalisisPage() {
     queryFn: () => getAnalisisData(selectedKelas === "all" ? undefined : selectedKelas),
   });
 
-  if (isLoading) {
+  const showSkeleton = useMinLoadingDelay(isLoading);
+
+  if (showSkeleton) {
     return (
-      <DashboardLayout title="Analisis">
-        <div className="text-center py-8">Loading...</div>
+      <DashboardLayout title="Analisis" subtitle="Memuat data analisis...">
+        <AnalisisSkeleton />
       </DashboardLayout>
     );
   }
@@ -82,10 +86,13 @@ function AnalisisPage() {
           </motion.div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ChartContainer title="Kemampuan per Materi" description="Radar chart berdasarkan materi">
+        <div className="space-y-6">
+          <ChartContainer
+            title="Kemampuan per Materi"
+            description="Tren kemampuan siswa pada setiap materi pembelajaran"
+          >
             {analisis?.kemampuan_per_materi && (
-              <KemampuanRadarChart data={analisis.kemampuan_per_materi} />
+              <KemampuanLineChart data={analisis.kemampuan_per_materi} />
             )}
           </ChartContainer>
 

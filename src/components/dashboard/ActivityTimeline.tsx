@@ -88,7 +88,7 @@ export function ActivityTimeline({ activities, compact = false }: ActivityTimeli
             <div className={cn("flex-1", compact ? "pt-0" : "pt-1")}>
               <div
                 className={cn(
-                  "rounded-lg border border-brand-gold/30 bg-brand-cream/50 transition-all duration-300 hover:border-brand-gold/40 hover:bg-brand-cream/80 hover:shadow-md hover:shadow-brand-gold/10",
+                  "rounded-xl border border-brand-gold/30 bg-brand-cream/50 transition-all duration-300 hover:border-brand-gold/40 hover:bg-brand-cream/80 hover:shadow-md hover:shadow-brand-gold/10",
                   compact ? "p-3" : "p-4",
                 )}
               >

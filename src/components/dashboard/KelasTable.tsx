@@ -103,7 +103,7 @@ export function KelasTable() {
         </Button>
       </div>
 
-      <div className="bg-white rounded-lg border border-brand-gold/20">
+      <div className="bg-white rounded-xl border border-brand-gold/20">
         <Table>
           <TableHeader>
             <TableRow>

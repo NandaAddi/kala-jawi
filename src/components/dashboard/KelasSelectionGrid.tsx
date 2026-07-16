@@ -53,7 +53,7 @@ export function KelasSelectionGrid({
               }}
               onClick={() => onSelectKelas(kelas.id)}
               whileHover={{ y: -4 }}
-              className="group relative rounded-lg border border-brand-gold/30 bg-white p-8 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-lg hover:shadow-brand-gold/10 text-left focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2"
+              className="group relative rounded-xl border border-brand-gold/30 bg-white p-8 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-lg hover:shadow-brand-gold/10 text-left focus-visible:outline-2 focus-visible:outline-brand-gold focus-visible:outline-offset-2"
               type="button"
             >
               <div className="mb-6">
@@ -87,7 +87,7 @@ export function KelasSelectionGrid({
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-16 px-4 rounded-lg border border-brand-gold/30 bg-brand-dark/5">
+        <div className="flex flex-col items-center justify-center py-16 px-4 rounded-xl border border-brand-gold/30 bg-brand-dark/5">
           <div className="w-16 h-16 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
             <BookOpen className="w-8 h-8 text-brand-dark/30" />
           </div>

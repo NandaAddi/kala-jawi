@@ -48,7 +48,7 @@ export function KemampuanLineChart({ data }: KemampuanLineChartProps) {
       const statusColor = nilai >= 75 ? "rgb(34, 197, 94)" : "rgb(239, 68, 68)";
 
       return (
-        <div className="rounded-lg border border-brand-gold bg-brand-dark/95 p-4 shadow-lg backdrop-blur-sm">
+        <div className="rounded-xl border border-brand-gold bg-brand-dark/95 p-4 shadow-lg backdrop-blur-sm">
           <p className="text-sm font-semibold text-brand-cream mb-2">{payload[0].payload.materi}</p>
           <div className="space-y-1">
             <p className="text-xs text-brand-cream/80">

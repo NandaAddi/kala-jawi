@@ -30,7 +30,7 @@ export function ProgressMateriGrid({ data }: ProgressMateriGridProps) {
             delay: 0.1 + index * 0.05,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="bg-white rounded-lg border border-brand-gold/30 p-4 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-md hover:shadow-brand-gold/10"
+          className="bg-white rounded-xl border border-brand-gold/30 p-4 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-md hover:shadow-brand-gold/10"
         >
           <div className="flex items-start justify-between mb-3 gap-3">
             <div className="flex-1 min-w-0">

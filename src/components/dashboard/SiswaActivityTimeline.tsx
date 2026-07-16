@@ -41,7 +41,7 @@ export function SiswaActivityTimeline({ data }: SiswaActivityTimelineProps) {
               {idx !== data.length - 1 && <div className="w-0.5 h-12 bg-brand-gold/30 mt-2" />}
             </div>
             <div className="flex-1 pb-4">
-              <div className="bg-white rounded-lg border border-brand-gold/30 p-4 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-md hover:shadow-brand-gold/10">
+              <div className="bg-white rounded-xl border border-brand-gold/30 p-4 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-md hover:shadow-brand-gold/10">
                 <div className="flex items-start justify-between mb-2 gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-brand-dark text-sm leading-snug">

@@ -26,7 +26,7 @@ export function ChartContainer({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "rounded-lg border border-brand-gold/30 bg-brand-dark/90 p-8 shadow-lg shadow-brand-gold/10 backdrop-blur-sm",
+        "rounded-xl border border-brand-gold/30 bg-brand-dark/90 p-8 shadow-lg shadow-brand-gold/10 backdrop-blur-sm",
         className,
       )}
     >

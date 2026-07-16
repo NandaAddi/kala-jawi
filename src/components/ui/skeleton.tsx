@@ -16,7 +16,7 @@ function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>)
 function SkeletonCard({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("rounded-lg border border-brand-gold/20 bg-brand-cream/50 p-6", className)}
+      className={cn("rounded-xl border border-brand-gold/20 bg-brand-cream/50 p-6", className)}
       {...props}
     />
   );

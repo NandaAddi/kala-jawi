@@ -57,10 +57,10 @@ export function StatCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -4 }}
-      className="relative bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+      className="relative bg-white rounded-xl border border-gray-100 p-5 pb-0 pr-0 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden min-h-[120px]"
     >
       {/* Status Badge */}
-      <div className={cn("inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold", statusStyle.bg, statusStyle.text)}>
+      <div className={cn("w-fit inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold", statusStyle.bg, statusStyle.text)}>
         {statusStyle.icon}
         {statusStyle.label}
       </div>
@@ -73,11 +73,11 @@ export function StatCard({
 
       {/* Character Illustration */}
       {characterImage && (
-        <div className="absolute bottom-0 right-0 w-20 h-24">
+        <div className="absolute bottom-0 right-0 w-20 h-32">
           <img
             src={characterImage}
             alt=""
-            className="w-full h-full object-contain object-bottom"
+            className="w-full h-full object-contain object-bottom translate-y-2"
           />
         </div>
       )}

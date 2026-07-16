@@ -61,7 +61,7 @@ export function DistribusiNilaiChart({ data }: DistribusiNilaiChartProps) {
       const percentage = totalSiswa > 0 ? ((item.jumlah / totalSiswa) * 100).toFixed(1) : "0";
 
       return (
-        <div className="rounded-lg border border-brand-gold bg-brand-dark/95 p-4 shadow-lg backdrop-blur-sm">
+        <div className="rounded-xl border border-brand-gold bg-brand-dark/95 p-4 shadow-lg backdrop-blur-sm">
           <p className="text-sm font-semibold text-brand-cream mb-2">Rentang Nilai: {item.range}</p>
           <div className="space-y-1">
             <p className="text-xs text-brand-cream/80">

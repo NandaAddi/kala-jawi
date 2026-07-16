@@ -41,7 +41,7 @@ export function DashboardHomeSkeleton() {
           </SkeletonCard>
         </div>
 
-        <div className="rounded-lg border border-brand-gold/30 bg-white/80 h-[600px] flex flex-col">
+        <div className="rounded-xl border border-brand-gold/30 bg-white/80 h-[600px] flex flex-col">
           <div className="p-6 border-b border-brand-gold/30">
             <Skeleton className="h-5 w-36 rounded bg-brand-dark/10" />
           </div>

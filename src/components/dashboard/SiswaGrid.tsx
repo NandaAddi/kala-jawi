@@ -157,7 +157,7 @@ export function SiswaGrid() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-lg border border-brand-gold/30 bg-brand-gold/5 p-4"
+              className="rounded-xl border border-brand-gold/30 bg-brand-gold/5 p-4"
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-brand-gold/20">
@@ -175,7 +175,7 @@ export function SiswaGrid() {
             </motion.div>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-4 p-6 rounded-lg border border-brand-gold/30 bg-brand-dark/5">
+           <div className="flex flex-col sm:flex-row gap-4 p-6 rounded-xl border border-brand-gold/30 bg-brand-dark/5">
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-brand-dark/40 w-5 h-5" />
               <Input
@@ -208,7 +208,7 @@ export function SiswaGrid() {
                       params={{ siswaId: siswa.id }}
                       className="block group"
                     >
-                      <div className="relative h-full rounded-lg border border-brand-gold/30 bg-white p-6 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-lg hover:shadow-brand-gold/10 hover:-translate-y-1">
+                      <div className="relative h-full rounded-xl border border-brand-gold/30 bg-white p-6 transition-all duration-300 hover:border-brand-gold/40 hover:shadow-lg hover:shadow-brand-gold/10 hover:-translate-y-1">
                         <div className="absolute top-4 right-4">
                           <div
                             className={cn(

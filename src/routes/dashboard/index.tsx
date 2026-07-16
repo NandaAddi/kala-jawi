@@ -9,7 +9,11 @@ import { useMinLoadingDelay } from "@/hooks/useMinLoadingDelay";
 import { getDashboardStats, getProgressTrend, getRecentActivities } from "@/lib/api/dashboard";
 import { getMockUser } from "@/lib/auth";
 import { BookOpen, Users, TrendingUp, Activity, Sun, Moon, Sunrise } from "lucide-react";
-import characterHi from "@/assets/character-hi.webp";
+import characterHi from "@/assets/character-hi.gif";
+import iconTotalSiswa from "@/assets/icon/total-siswa.webp";
+import iconTotalKelas from "@/assets/icon/total-kelas.webp";
+import iconRataProgress from "@/assets/icon/rata-progress.webp";
+import iconAktivitasHariIni from "@/assets/icon/aktivitas-hari-ini.webp";
 import {
   LineChart,
   Line,
@@ -97,7 +101,7 @@ function DashboardPage() {
             const greeting = getGreeting();
 
             return (
-              <div className="relative overflow-hidden rounded-2xl bg-white border border-brand-gold/30 p-6 md:p-8 pb-0 shadow-sm shadow-black/5">
+              <div className="relative overflow-hidden rounded-xl bg-white border border-brand-gold/30 p-6 md:p-8 pb-0 shadow-sm shadow-black/5">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
                 <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
@@ -132,28 +136,28 @@ function DashboardPage() {
               value={`${stats?.total_siswa || 0} Siswa`}
               description="Siswa aktif di platform"
               status="active"
-              characterImage={characterHi}
+              characterImage={iconTotalSiswa}
             />
             <StatCard
               title="Total Kelas"
               value={`${stats?.total_kelas || 0} Kelas`}
               description="Kelas yang diampu"
               status="finished"
-              characterImage={characterHi}
+              characterImage={iconTotalKelas}
             />
             <StatCard
               title="Rata-rata Progress"
               value={`${stats?.rata_progress.toFixed(1) || 0}%`}
               description="Progress rata-rata siswa"
               status="active"
-              characterImage={characterHi}
+              characterImage={iconRataProgress}
             />
             <StatCard
               title="Aktivitas Hari Ini"
               value={`${stats?.aktivitas_hari_ini || 0} Aktivitas`}
               description="Aktivitas pembelajaran"
               status="paused"
-              characterImage={characterHi}
+              characterImage={iconAktivitasHariIni}
             />
           </div>
 

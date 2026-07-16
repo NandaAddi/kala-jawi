@@ -16,7 +16,20 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as KontakRouteImport } from './routes/kontak'
 import { Route as GameInfoRouteImport } from './routes/game-info'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GameInfoIndexRouteImport } from './routes/game-info/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as GameInfoPenyusunanJalurRouteImport } from './routes/game-info/penyusunan-jalur'
+import { Route as GameInfoKelasPengelanaRouteImport } from './routes/game-info/kelas-pengelana'
+import { Route as GameInfoAnalisisPerjalananRouteImport } from './routes/game-info/analisis-perjalanan'
+import { Route as DashboardRiwayatRouteImport } from './routes/dashboard/riwayat'
+import { Route as DashboardProfilRouteImport } from './routes/dashboard/profil'
+import { Route as DashboardKuratorRouteImport } from './routes/dashboard/kurator'
+import { Route as DashboardAnalisisRouteImport } from './routes/dashboard/analisis'
+import { Route as DashboardSiswaIndexRouteImport } from './routes/dashboard/siswa/index'
+import { Route as DashboardKelasIndexRouteImport } from './routes/dashboard/kelas/index'
+import { Route as DashboardSiswaSiswaIdRouteImport } from './routes/dashboard/siswa/$siswaId'
 
 const TentangRoute = TentangRouteImport.update({
   id: '/tentang',
@@ -53,47 +66,151 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GameInfoIndexRoute = GameInfoIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GameInfoRoute,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const GameInfoPenyusunanJalurRoute = GameInfoPenyusunanJalurRouteImport.update({
+  id: '/penyusunan-jalur',
+  path: '/penyusunan-jalur',
+  getParentRoute: () => GameInfoRoute,
+} as any)
+const GameInfoKelasPengelanaRoute = GameInfoKelasPengelanaRouteImport.update({
+  id: '/kelas-pengelana',
+  path: '/kelas-pengelana',
+  getParentRoute: () => GameInfoRoute,
+} as any)
+const GameInfoAnalisisPerjalananRoute =
+  GameInfoAnalisisPerjalananRouteImport.update({
+    id: '/analisis-perjalanan',
+    path: '/analisis-perjalanan',
+    getParentRoute: () => GameInfoRoute,
+  } as any)
+const DashboardRiwayatRoute = DashboardRiwayatRouteImport.update({
+  id: '/riwayat',
+  path: '/riwayat',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProfilRoute = DashboardProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardKuratorRoute = DashboardKuratorRouteImport.update({
+  id: '/kurator',
+  path: '/kurator',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAnalisisRoute = DashboardAnalisisRouteImport.update({
+  id: '/analisis',
+  path: '/analisis',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSiswaIndexRoute = DashboardSiswaIndexRouteImport.update({
+  id: '/siswa/',
+  path: '/siswa/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardKelasIndexRoute = DashboardKelasIndexRouteImport.update({
+  id: '/kelas/',
+  path: '/kelas/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSiswaSiswaIdRoute = DashboardSiswaSiswaIdRouteImport.update({
+  id: '/siswa/$siswaId',
+  path: '/siswa/$siswaId',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
-  '/game-info': typeof GameInfoRoute
+  '/game-info': typeof GameInfoRouteWithChildren
   '/kontak': typeof KontakRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/tentang': typeof TentangRoute
+  '/dashboard/analisis': typeof DashboardAnalisisRoute
+  '/dashboard/kurator': typeof DashboardKuratorRoute
+  '/dashboard/profil': typeof DashboardProfilRoute
+  '/dashboard/riwayat': typeof DashboardRiwayatRoute
+  '/game-info/analisis-perjalanan': typeof GameInfoAnalisisPerjalananRoute
+  '/game-info/kelas-pengelana': typeof GameInfoKelasPengelanaRoute
+  '/game-info/penyusunan-jalur': typeof GameInfoPenyusunanJalurRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/game-info/': typeof GameInfoIndexRoute
+  '/dashboard/siswa/$siswaId': typeof DashboardSiswaSiswaIdRoute
+  '/dashboard/kelas/': typeof DashboardKelasIndexRoute
+  '/dashboard/siswa/': typeof DashboardSiswaIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
-  '/game-info': typeof GameInfoRoute
   '/kontak': typeof KontakRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/tentang': typeof TentangRoute
+  '/dashboard/analisis': typeof DashboardAnalisisRoute
+  '/dashboard/kurator': typeof DashboardKuratorRoute
+  '/dashboard/profil': typeof DashboardProfilRoute
+  '/dashboard/riwayat': typeof DashboardRiwayatRoute
+  '/game-info/analisis-perjalanan': typeof GameInfoAnalisisPerjalananRoute
+  '/game-info/kelas-pengelana': typeof GameInfoKelasPengelanaRoute
+  '/game-info/penyusunan-jalur': typeof GameInfoPenyusunanJalurRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/game-info': typeof GameInfoIndexRoute
+  '/dashboard/siswa/$siswaId': typeof DashboardSiswaSiswaIdRoute
+  '/dashboard/kelas': typeof DashboardKelasIndexRoute
+  '/dashboard/siswa': typeof DashboardSiswaIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
-  '/game-info': typeof GameInfoRoute
+  '/game-info': typeof GameInfoRouteWithChildren
   '/kontak': typeof KontakRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/tentang': typeof TentangRoute
+  '/dashboard/analisis': typeof DashboardAnalisisRoute
+  '/dashboard/kurator': typeof DashboardKuratorRoute
+  '/dashboard/profil': typeof DashboardProfilRoute
+  '/dashboard/riwayat': typeof DashboardRiwayatRoute
+  '/game-info/analisis-perjalanan': typeof GameInfoAnalisisPerjalananRoute
+  '/game-info/kelas-pengelana': typeof GameInfoKelasPengelanaRoute
+  '/game-info/penyusunan-jalur': typeof GameInfoPenyusunanJalurRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/game-info/': typeof GameInfoIndexRoute
+  '/dashboard/siswa/$siswaId': typeof DashboardSiswaSiswaIdRoute
+  '/dashboard/kelas/': typeof DashboardKelasIndexRoute
+  '/dashboard/siswa/': typeof DashboardSiswaIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/forgot-password'
     | '/game-info'
     | '/kontak'
@@ -101,19 +218,43 @@ export interface FileRouteTypes {
     | '/register'
     | '/syarat-ketentuan'
     | '/tentang'
+    | '/dashboard/analisis'
+    | '/dashboard/kurator'
+    | '/dashboard/profil'
+    | '/dashboard/riwayat'
+    | '/game-info/analisis-perjalanan'
+    | '/game-info/kelas-pengelana'
+    | '/game-info/penyusunan-jalur'
+    | '/dashboard/'
+    | '/game-info/'
+    | '/dashboard/siswa/$siswaId'
+    | '/dashboard/kelas/'
+    | '/dashboard/siswa/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/forgot-password'
-    | '/game-info'
     | '/kontak'
     | '/login'
     | '/register'
     | '/syarat-ketentuan'
     | '/tentang'
+    | '/dashboard/analisis'
+    | '/dashboard/kurator'
+    | '/dashboard/profil'
+    | '/dashboard/riwayat'
+    | '/game-info/analisis-perjalanan'
+    | '/game-info/kelas-pengelana'
+    | '/game-info/penyusunan-jalur'
+    | '/dashboard'
+    | '/game-info'
+    | '/dashboard/siswa/$siswaId'
+    | '/dashboard/kelas'
+    | '/dashboard/siswa'
   id:
     | '__root__'
     | '/'
+    | '/dashboard'
     | '/forgot-password'
     | '/game-info'
     | '/kontak'
@@ -121,12 +262,25 @@ export interface FileRouteTypes {
     | '/register'
     | '/syarat-ketentuan'
     | '/tentang'
+    | '/dashboard/analisis'
+    | '/dashboard/kurator'
+    | '/dashboard/profil'
+    | '/dashboard/riwayat'
+    | '/game-info/analisis-perjalanan'
+    | '/game-info/kelas-pengelana'
+    | '/game-info/penyusunan-jalur'
+    | '/dashboard/'
+    | '/game-info/'
+    | '/dashboard/siswa/$siswaId'
+    | '/dashboard/kelas/'
+    | '/dashboard/siswa/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
-  GameInfoRoute: typeof GameInfoRoute
+  GameInfoRoute: typeof GameInfoRouteWithChildren
   KontakRoute: typeof KontakRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
@@ -185,6 +339,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -192,13 +353,142 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/game-info/': {
+      id: '/game-info/'
+      path: '/'
+      fullPath: '/game-info/'
+      preLoaderRoute: typeof GameInfoIndexRouteImport
+      parentRoute: typeof GameInfoRoute
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/game-info/penyusunan-jalur': {
+      id: '/game-info/penyusunan-jalur'
+      path: '/penyusunan-jalur'
+      fullPath: '/game-info/penyusunan-jalur'
+      preLoaderRoute: typeof GameInfoPenyusunanJalurRouteImport
+      parentRoute: typeof GameInfoRoute
+    }
+    '/game-info/kelas-pengelana': {
+      id: '/game-info/kelas-pengelana'
+      path: '/kelas-pengelana'
+      fullPath: '/game-info/kelas-pengelana'
+      preLoaderRoute: typeof GameInfoKelasPengelanaRouteImport
+      parentRoute: typeof GameInfoRoute
+    }
+    '/game-info/analisis-perjalanan': {
+      id: '/game-info/analisis-perjalanan'
+      path: '/analisis-perjalanan'
+      fullPath: '/game-info/analisis-perjalanan'
+      preLoaderRoute: typeof GameInfoAnalisisPerjalananRouteImport
+      parentRoute: typeof GameInfoRoute
+    }
+    '/dashboard/riwayat': {
+      id: '/dashboard/riwayat'
+      path: '/riwayat'
+      fullPath: '/dashboard/riwayat'
+      preLoaderRoute: typeof DashboardRiwayatRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/profil': {
+      id: '/dashboard/profil'
+      path: '/profil'
+      fullPath: '/dashboard/profil'
+      preLoaderRoute: typeof DashboardProfilRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/kurator': {
+      id: '/dashboard/kurator'
+      path: '/kurator'
+      fullPath: '/dashboard/kurator'
+      preLoaderRoute: typeof DashboardKuratorRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/analisis': {
+      id: '/dashboard/analisis'
+      path: '/analisis'
+      fullPath: '/dashboard/analisis'
+      preLoaderRoute: typeof DashboardAnalisisRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/siswa/': {
+      id: '/dashboard/siswa/'
+      path: '/siswa'
+      fullPath: '/dashboard/siswa/'
+      preLoaderRoute: typeof DashboardSiswaIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/kelas/': {
+      id: '/dashboard/kelas/'
+      path: '/kelas'
+      fullPath: '/dashboard/kelas/'
+      preLoaderRoute: typeof DashboardKelasIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/siswa/$siswaId': {
+      id: '/dashboard/siswa/$siswaId'
+      path: '/siswa/$siswaId'
+      fullPath: '/dashboard/siswa/$siswaId'
+      preLoaderRoute: typeof DashboardSiswaSiswaIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardAnalisisRoute: typeof DashboardAnalisisRoute
+  DashboardKuratorRoute: typeof DashboardKuratorRoute
+  DashboardProfilRoute: typeof DashboardProfilRoute
+  DashboardRiwayatRoute: typeof DashboardRiwayatRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardSiswaSiswaIdRoute: typeof DashboardSiswaSiswaIdRoute
+  DashboardKelasIndexRoute: typeof DashboardKelasIndexRoute
+  DashboardSiswaIndexRoute: typeof DashboardSiswaIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAnalisisRoute: DashboardAnalisisRoute,
+  DashboardKuratorRoute: DashboardKuratorRoute,
+  DashboardProfilRoute: DashboardProfilRoute,
+  DashboardRiwayatRoute: DashboardRiwayatRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardSiswaSiswaIdRoute: DashboardSiswaSiswaIdRoute,
+  DashboardKelasIndexRoute: DashboardKelasIndexRoute,
+  DashboardSiswaIndexRoute: DashboardSiswaIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
+interface GameInfoRouteChildren {
+  GameInfoAnalisisPerjalananRoute: typeof GameInfoAnalisisPerjalananRoute
+  GameInfoKelasPengelanaRoute: typeof GameInfoKelasPengelanaRoute
+  GameInfoPenyusunanJalurRoute: typeof GameInfoPenyusunanJalurRoute
+  GameInfoIndexRoute: typeof GameInfoIndexRoute
+}
+
+const GameInfoRouteChildren: GameInfoRouteChildren = {
+  GameInfoAnalisisPerjalananRoute: GameInfoAnalisisPerjalananRoute,
+  GameInfoKelasPengelanaRoute: GameInfoKelasPengelanaRoute,
+  GameInfoPenyusunanJalurRoute: GameInfoPenyusunanJalurRoute,
+  GameInfoIndexRoute: GameInfoIndexRoute,
+}
+
+const GameInfoRouteWithChildren = GameInfoRoute._addFileChildren(
+  GameInfoRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
-  GameInfoRoute: GameInfoRoute,
+  GameInfoRoute: GameInfoRouteWithChildren,
   KontakRoute: KontakRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,

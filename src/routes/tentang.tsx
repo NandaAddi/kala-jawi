@@ -1,22 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { Info, ArrowLeft } from "lucide-react";
+import { Users, BookOpen, BarChart3, Zap, HelpCircle, ArrowLeft } from "lucide-react";
 import batikBg from "@/assets/batik.webp";
 import { Navbar } from "@/components/Navbar";
 
 export const Route = createFileRoute("/tentang")({
   head: () => ({
     meta: [
-      { title: "Tentang Kami - Kalajawi | Coming Soon" },
+      { title: "Tentang Kami - Kalajawi" },
       {
         name: "description",
         content:
-          "Tentang Kalajawi - platform pembelajaran digital interaktif budaya Jawa. Halaman ini sedang dalam pengembangan.",
+          "Tentang Kalajawi - platform pembelajaran digital berbasis game edukasi yang mengintegrasikan budaya Jawa dengan Problem Based Learning.",
       },
-      { property: "og:title", content: "Tentang Kami - Kalajawi | Coming Soon" },
+      { property: "og:title", content: "Tentang Kami - Kalajawi" },
       {
         property: "og:description",
-        content: "Kenali lebih dekat tentang Kalajawi - platform budaya Jawa digital.",
+        content:
+          "Pelajari lebih lanjut tentang Kalajawi dan fitur-fitur pembelajaran budaya Jawa digital yang inovatif.",
       },
       { property: "og:url", content: "https://kala-jawi.nandaaddiwijaya.my.id/tentang" },
       { property: "og:image", content: "https://kala-jawi.nandaaddiwijaya.my.id/og-image.jpg" },
@@ -24,6 +25,48 @@ export const Route = createFileRoute("/tentang")({
   }),
   component: TentangPage,
 });
+
+interface Feature {
+  id: number;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+const features: Feature[] = [
+  {
+    id: 1,
+    icon: <Users className="size-6" />,
+    title: "Kelas Pengelana",
+    description: "Mengelola dan memantau aktivitas belajar siswa.",
+  },
+  {
+    id: 2,
+    icon: <BookOpen className="size-6" />,
+    title: "Kurasi Modul Pembelajaran",
+    description: "Mengatur modul dan misi budaya yang akan dipelajari siswa.",
+  },
+  {
+    id: 3,
+    icon: <BarChart3 className="size-6" />,
+    title: "Analisis Pembelajaran",
+    description: "Menyajikan data perkembangan kompetensi siswa secara visual.",
+  },
+  {
+    id: 4,
+    icon: <Zap className="size-6" />,
+    title: "Pemulihan Timeline",
+    description:
+      "Menampilkan progres perjalanan belajar siswa dalam memulihkan fragmen pengetahuan budaya.",
+  },
+  {
+    id: 5,
+    icon: <HelpCircle className="size-6" />,
+    title: "Sasmita",
+    description:
+      "Fitur bantuan dan arahan yang dapat digunakan guru untuk mendampingi siswa selama proses pembelajaran.",
+  },
+];
 
 function TentangPage() {
   return (
@@ -45,47 +88,116 @@ function TentangPage() {
 
       <Navbar />
 
-      <main className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-20">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-md text-center"
-        >
-          <div className="rounded-xl border border-brand-gold/40 bg-brand-dark/95 p-8 sm:p-12 shadow-2xl shadow-brand-gold/10 backdrop-blur-md">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
-              className="mx-auto mb-6 flex size-16 items-center justify-center rounded-full bg-brand-gold/10"
-            >
-              <Info className="size-8 text-brand-gold" />
-            </motion.div>
+      <main className="relative z-10 pt-32 pb-24 px-4">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-32"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+              <div className="lg:col-span-5">
+                <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-dark leading-[0.95] mb-6">
+                  Tentang Kala-Jawi
+                </h1>
+              </div>
+              <div className="lg:col-span-7 lg:pt-3">
+                <p className="text-lg sm:text-xl text-brand-dark/80 leading-relaxed max-w-[55ch]">
+                  Platform pembelajaran digital berbasis game edukasi yang mengintegrasikan budaya
+                  Jawa dengan pendekatan Problem Based Learning.
+                </p>
+              </div>
+            </div>
+          </motion.div>
 
-            <h1 className="font-display text-3xl sm:text-4xl font-bold text-white">Tentang Kami</h1>
-
-            <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5">
-              <span className="size-2 rounded-full bg-brand-gold animate-pulse" />
-              <span className="text-xs font-medium uppercase tracking-wider text-brand-gold">
-                Coming Soon
-              </span>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-24 mb-28 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16"
+          >
+            <div className="space-y-8">
+              <div>
+                <h2 className="font-display text-3xl font-bold text-brand-dark mb-4">
+                  Untuk Siswa: Pengelana Waktu
+                </h2>
+                <p className="text-brand-dark/70 leading-relaxed">
+                  Melalui peran sebagai Pengelana Waktu, siswa diajak menyelesaikan berbagai misteri
+                  budaya, mempelajari sejarah, aksara Jawa, unggah-ungguh, dan gamelan dalam sebuah
+                  petualangan yang interaktif.
+                </p>
+              </div>
             </div>
 
-            <p className="mt-6 text-sm leading-relaxed text-white/70">
-              Halaman ini sedang dalam pengembangan. Nantikan kehadirannya.
+            <div className="space-y-8">
+              <div>
+                <h2 className="font-display text-3xl font-bold text-brand-dark mb-4">
+                  Untuk Guru: Penjaga Waktu
+                </h2>
+                <p className="text-brand-dark/70 leading-relaxed">
+                  Bertugas memantau perkembangan siswa melalui dashboard pembelajaran, mengelola
+                  kelas, mengkurasi modul pembelajaran, serta menganalisis capaian kompetensi budaya
+                  siswa.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-32 p-8 md:p-12 rounded-2xl bg-brand-dark/90 border border-brand-gold/30 backdrop-blur-sm shadow-lg shadow-brand-gold/10"
+          >
+            <h3 className="font-display text-2xl font-bold text-brand-cream mb-4">Tujuan Utama</h3>
+            <p className="text-lg text-brand-cream/90 leading-relaxed max-w-3xl">
+              Menghadirkan pengalaman belajar budaya yang lebih menarik, kontekstual, dan bermakna
+              melalui pemanfaatan teknologi digital.
             </p>
+          </motion.div>
 
-            <div className="mt-8">
-              <Link
-                to="/"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-brand-gold bg-brand-dark px-6 py-3 text-sm font-bold text-brand-cream transition-all duration-300 hover:bg-brand-dark/80 hover:border-brand-light-gold"
-              >
-                <ArrowLeft className="size-4" />
-                Kembali ke Beranda
-              </Link>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-20"
+          >
+            <h2 className="font-display text-4xl font-bold text-brand-dark mb-12">Fitur Utama</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-max">
+              {features.map((feature, index) => {
+                let colSpan = "md:col-span-1";
+                if (index === 0) colSpan = "md:col-span-2";
+                if (index === 4) colSpan = "md:col-span-1";
+
+                return (
+                  <motion.div
+                    key={feature.id}
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.45 + index * 0.08,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className={`${colSpan} group rounded-lg border border-brand-gold/30 bg-brand-dark/85 p-6 shadow-md shadow-brand-gold/5 backdrop-blur-sm transition-all duration-300 hover:border-brand-gold/50 hover:shadow-lg hover:shadow-brand-gold/15 hover:bg-brand-dark/95`}
+                  >
+                    <div className="mb-4 flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/10">
+                      <div className="text-brand-gold">{feature.icon}</div>
+                    </div>
+                    <h3 className="font-display text-lg font-bold text-brand-cream mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-brand-cream/80 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </motion.div>
+                );
+              })}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </main>
     </div>
   );

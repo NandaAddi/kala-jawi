@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Mail, Lock, Eye, EyeOff, Chrome } from "lucide-react";
@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { setMockUser } from "@/lib/auth";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -52,6 +54,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -62,8 +65,15 @@ function LoginPage() {
     },
   });
 
-  const onSubmit = (_data: LoginFormValues) => {
-    // TODO: Implement API call
+  const onSubmit = (data: LoginFormValues) => {
+    setMockUser({
+      id: `guru_${Date.now()}`,
+      nama: data.email.split("@")[0],
+      email: data.email,
+      role: "guru",
+    });
+    toast.success("Login berhasil! Selamat datang di Dashboard Guru.");
+    navigate({ to: "/dashboard" });
   };
 
   return (
